@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'fogot_password.dart';
+//import 'fogot_password/fogot_password.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
+
+import '../bottomTabBar/FabTabs.dart';
+import '../fogot_password/fogot_password.dart';
 
 class loginForm extends StatefulWidget {
   const loginForm({super.key, });
@@ -145,6 +148,10 @@ class _loginFormState extends State<loginForm> {
                                     if(_formkey.currentState!.validate()){
                                       print('Succes');
                                     }
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(builder: (context) => FabTabs(selectedIndex:0) ),
+                                    );
                                   },
                                   child: Text(
                                       'LOG IN'

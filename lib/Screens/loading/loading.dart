@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'login.dart';
-import 'login_form.dart';
+import '../login/login.dart';
+//import '../login_form.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class loding_page extends StatefulWidget {
