@@ -38,7 +38,7 @@ class _HomeState extends State<PersonalInformation> {
                     Colors.blueGrey.shade300,
                   ],
                 ),
-                //color: Colors.green // to insert sngle background color behind profile
+                //color: Colors.green // This code is used to insert sngle background color behind profile
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

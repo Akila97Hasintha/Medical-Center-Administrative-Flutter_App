@@ -5,7 +5,6 @@ import '../home/home.dart';
 import '../medical_records/medical_records.dart';
 import '../news/news.dart';
 import '../personal_information/personal_information.dart';
-import '../logout/logout.dart';
 
 class FabTabs extends StatefulWidget {
   int selectedIndex = 0;
@@ -38,7 +37,7 @@ class _FabTabsState extends State<FabTabs> {
     const Appointment(),
     const MedicalRecords(),
     const PersonalInformation(),
-    const Logout(),
+    const News()
   ];
 
   final PageStorageBucket bucket = PageStorageBucket();
@@ -54,9 +53,10 @@ class _FabTabsState extends State<FabTabs> {
                     ? const MedicalRecords()
                     : currentIndex == 4
                         ? const PersonalInformation()
-                        : currentIndex == 5
-                            ? const News()
-                            : const Logout();
+                        : const News();
+    // : currentIndex == 5
+    //     ? const News()
+    //     : const Logout();
     // When Add new interface Should change Always
 
     return Scaffold(

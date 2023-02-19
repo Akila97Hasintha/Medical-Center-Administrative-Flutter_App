@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../bottomTabBar/FabTabs.dart';
+import '../login/login.dart';
 
 class SideMenu extends StatefulWidget {
   const SideMenu({super.key});
@@ -148,11 +149,34 @@ class _SideMenuState extends State<SideMenu> {
                     color: Colors.black,
                     fontSize: 20,
                     fontWeight: FontWeight.bold)),
-            onTap: () => {
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => FabTabs(selectedIndex: 6)))
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text("Confirm Logout"),
+                    content: const Text("Are you sure you want to logout ?"),
+                    actions: [
+                      TextButton(
+                        child: Text("Cancel"),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                      ),
+                      TextButton(
+                        child: const Text('Logout'),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => loginPage()),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
+              );
             },
           ),
         ],

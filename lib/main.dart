@@ -1,6 +1,5 @@
 import 'dart:async';
-import 'Screens/bottomTabBar/FabTabs.dart';
-import 'Screens/login/login.dart';
+//import 'Screens/bottomTabBar/FabTabs.dart';
 import 'Screens/loading/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
@@ -16,8 +15,7 @@ import 'package:mongo_dart/mongo_dart.dart';
 //   runApp(new MyApp());
 // }
 
-void main() => runApp(
-      // This is a Device preview Code.Shows vertual Mobile
+void main() => runApp(  // This is a Device preview Code.Shows virtual Mobile
       DevicePreview(
         //enabled: !kReleaseMode,
         builder: (context) => MyApp(), // Wrap your app
