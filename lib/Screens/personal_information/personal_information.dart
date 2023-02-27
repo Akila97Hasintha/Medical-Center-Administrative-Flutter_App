@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../drawer/sidemenu.dart';
+import '../login/login_form.dart';
 
 class PersonalInformation extends StatefulWidget {
   const PersonalInformation({Key? key}) : super(key: key);
@@ -7,10 +8,12 @@ class PersonalInformation extends StatefulWidget {
   @override
   State<PersonalInformation> createState() => _HomeState();
 }
+String id =constraint.id;
 
 class _HomeState extends State<PersonalInformation> {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       drawer: const SideMenu(),
       appBar: PreferredSize(
@@ -251,3 +254,4 @@ class _HomeState extends State<PersonalInformation> {
     );
   }
 }
+

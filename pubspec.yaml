@@ -39,8 +39,8 @@ dependencies:
   device_preview: ^1.1.0
   google_fonts: ^4.0.1
   wc_form_validators: ^1.0.0
-
-
+shared_preferences: ^2.0.17
+web_socket_channel: ^2.3.0
 
 
 dev_dependencies:
@@ -54,6 +54,9 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  http: ^0.13.5
+
+
 #  wc_form_validators: ^1.0.0
 
 # For information on the generic Dart part of this file, see the

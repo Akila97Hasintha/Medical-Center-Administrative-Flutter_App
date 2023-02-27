@@ -1,12 +1,19 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 //import 'fogot_password/fogot_password.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../bottomTabBar/FabTabs.dart';
 import '../fogot_password/fogot_password.dart';
+import 'package:http/http.dart' as http;
+
+
 
 class loginForm extends StatefulWidget {
+  //final User user;
+
+
   const loginForm({super.key, });
 
   @override
@@ -14,12 +21,21 @@ class loginForm extends StatefulWidget {
 }
 
 class _loginFormState extends State<loginForm> {
+
+  var email;
+  var password;
+  var id;
       TextEditingController nameController = TextEditingController();
       TextEditingController passwordController = TextEditingController();
       final _formkey = GlobalKey<FormState>();
       bool _isObscure = true;
+
+
+
   @override
   Widget build(BuildContext context) {
+
+
     Size size = MediaQuery.of(context).size;
     return SafeArea(
           child: Scaffold(
@@ -35,14 +51,11 @@ class _loginFormState extends State<loginForm> {
                   children: <Widget>[
 
 
-
-
-
                                  Container(
                                   //color:Color(0xff011422),
                                   height:200,
                                   width: double.infinity,
-                                   decoration: BoxDecoration(
+                                   decoration: const BoxDecoration(
                                      image: DecorationImage(
                                        fit: BoxFit.cover,
                                        image: AssetImage('assests/black_theam1.png',),
@@ -66,11 +79,6 @@ class _loginFormState extends State<loginForm> {
 
                                 ),
 
-
-
-
-
-
                     Container(
                       child: SizedBox(
                         width: 320,
@@ -88,25 +96,28 @@ class _loginFormState extends State<loginForm> {
                             children: <Widget>[
 
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 child: SizedBox(
                                   //width:350,
                                   child: TextFormField(
 
                                     controller: nameController,
-                                    decoration: InputDecoration(
+                                    decoration: const InputDecoration(
                                       suffixIcon: Icon(Icons.people),
                                       labelText: 'User name',
                                       border: OutlineInputBorder(),
 
                                     ),
                                     validator: Validators.compose([Validators.required('require user name..')] ),
+                                    onChanged: (value){
+                                      email= value;
+                                    },
                                   ),
                                 ),
 
                               ),
                               Container(
-                                padding: EdgeInsets.all(10),
+                                padding: const EdgeInsets.all(10),
                                 child: TextFormField(
                                   obscureText: _isObscure,
                                   controller: passwordController,
@@ -129,31 +140,52 @@ class _loginFormState extends State<loginForm> {
 
 
                                     ),
-                                    border: OutlineInputBorder(),
+                                    border: const OutlineInputBorder(),
                                     labelText: 'password',
                                   ),
                                   validator: Validators.compose([Validators.required('require password..')] ),
+                                  onChanged:(value){
+                                    password = value;
+                                  },
                                 ),
                               ),
                                Container(
 
-                                padding: EdgeInsets.fromLTRB(10, 10, 10,10),
+                                padding: const EdgeInsets.fromLTRB(10, 10, 10,10),
 
                                 child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(shape:StadiumBorder() ,
+                                  style: ElevatedButton.styleFrom(shape:const StadiumBorder() ,
                                     minimumSize: const Size.fromHeight(50),
                                   ),
 
-                                  onPressed: (){
+                                  onPressed: () async {
                                     if(_formkey.currentState!.validate()){
                                       print('Succes');
                                     }
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(builder: (context) => FabTabs(selectedIndex:0) ),
-                                    );
+                                    print(email);
+                                    // pass to email to the endpoint
+                                    signup(email, password);
+                                    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+                                    String? token =prefs.getString("token");
+                                    String? _id =prefs.getString("_id");
+                                    id=_id;
+                                    constraint.id = _id!;
+                                    print(_id);
+
+                                    //get token
+
+                                    if(token != null){
+                                      Navigator.of(context).push(
+
+                                        MaterialPageRoute(builder: (context) => FabTabs(selectedIndex:0) ),
+                                      );
+                                    }else{
+                                      print("login error");
+                                    }
+
                                   },
-                                  child: Text(
+                                  child: const Text(
                                       'LOG IN'
                                   ),
 
@@ -166,11 +198,11 @@ class _loginFormState extends State<loginForm> {
                                     MaterialPageRoute(builder: (context) => const f_password()),
                                   );
                                 },
-                                child: Text('Fogot Password?'),
+                                child: const Text('Fogot Password?'),
                               ),
                               Container(
                                 //height: ,
-                                margin: EdgeInsets.all(50),
+                                margin: const EdgeInsets.all(50),
                                 child: Text(
                                   'University of Ruhuna',
                                   textAlign: TextAlign.center,
@@ -179,7 +211,7 @@ class _loginFormState extends State<loginForm> {
                                     fontWeight:  FontWeight.w400,
                                     height:  10,
                                     letterSpacing:  3.75,
-                                    color:  Color(0xff011422),
+                                    color:  const Color(0xff011422),
                                   ),
                                 ),
                               ),
@@ -202,3 +234,45 @@ class _loginFormState extends State<loginForm> {
 
   }
 }
+
+// Authontication for login
+
+signup(email, password) async{
+  var url = "http://localhost:3001/api/v1/users/login";
+  final response = await http.post(
+    Uri.parse(url),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'email':email,'password':password,
+    }),
+  );
+
+ print(response.body);
+
+
+  var parse = jsonDecode(response.body);
+  var user = parse["data"]["user"];
+  var userId = user["_id"];
+
+
+
+  //print(userId);
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+ await prefs.setString('_id', userId);
+  await prefs.setString('token', parse["token"]);
+
+
+
+}
+
+class constraint{
+  static String id ="";
+}
+
+
+
+
+
+
