@@ -4,19 +4,20 @@ import '../login/login.dart';
 //import '../login_form.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class loding_page extends StatefulWidget {
-  const loding_page({Key? key}) : super(key: key);
+class Loding_page extends StatefulWidget {
+  const Loding_page({Key? key}) : super(key: key);
 
   @override
-  State<loding_page> createState() => _loding_pageState();
+  State<Loding_page> createState() => _Loding_pageState();
 }
 
-class _loding_pageState extends State<loding_page> {
+class _Loding_pageState extends State<Loding_page> {
+  @override
   void initState(){
     super.initState();
-    Timer(Duration(seconds: 4),(){
+    Timer(const Duration(seconds: 4),(){
       Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => loginPage()));
+          builder: (_) => LoginPage()));
     });
   }
   @override
@@ -37,7 +38,7 @@ class _loding_pageState extends State<loding_page> {
             Positioned(
             top: 0,
               // left:0,
-              child: Container(
+              child: SizedBox(
                 height: 200,
                 //width: size.width,
                 width: MediaQuery.of(context).size.width,
@@ -91,7 +92,7 @@ class _loding_pageState extends State<loding_page> {
                 ),
               ),
             ),
-            Positioned(
+            const Positioned(
                 bottom: 100,
                 child: SizedBox(
                   width: 50,
@@ -106,7 +107,7 @@ class _loding_pageState extends State<loding_page> {
 
         ),
       ),
-    );;
+    );
   }
 }
 

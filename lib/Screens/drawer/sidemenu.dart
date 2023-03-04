@@ -169,7 +169,7 @@ class _SideMenuState extends State<SideMenu> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => loginPage()),
+                                builder: (context) => LoginPage()),
                           );
                         },
                       ),

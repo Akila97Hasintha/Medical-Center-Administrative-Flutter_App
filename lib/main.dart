@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         //brightness: Brightness.dark,
       ),
-      home:const loding_page(),
+      home:const Loding_page(),
       //home:FabTabs(selectedIndex: 4), //  This Code for Development Purpose Only
     );
   }

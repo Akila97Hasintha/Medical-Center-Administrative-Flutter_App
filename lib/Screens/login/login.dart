@@ -3,14 +3,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'login_form.dart';
 //import 'package:medical_center_dart/Screens/login_form.dart';
-class loginPage extends StatefulWidget {
+class LoginPage extends StatefulWidget {
 
 
   @override
-  State<loginPage> createState() => _loginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _loginPageState extends State<loginPage> {
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -29,7 +29,7 @@ class _loginPageState extends State<loginPage> {
             Positioned(
               top: 0,
               // left:0,
-              child: Container(
+              child: SizedBox(
                 height: 200,
                 //width: size.width,
                 width: MediaQuery.of(context).size.width,
@@ -77,7 +77,7 @@ class _loginPageState extends State<loginPage> {
 
                       onPressed: (){
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
-                            builder: (_) =>loginForm()));
+                            builder: (_) =>LoginForm()));
                       },
                       child: Text('Log In!')
                   ),

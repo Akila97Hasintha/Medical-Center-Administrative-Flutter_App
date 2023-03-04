@@ -8,7 +8,7 @@ class PersonalInformation extends StatefulWidget {
   @override
   State<PersonalInformation> createState() => _HomeState();
 }
-String id =constraint.id;
+//String id =constraint.id;
 
 class _HomeState extends State<PersonalInformation> {
   @override
