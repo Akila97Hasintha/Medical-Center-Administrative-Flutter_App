@@ -1,7 +1,11 @@
+import 'dart:convert';
+import 'package:flutter/foundation.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart' ;
 import '../bottomTabBar/FabTabs.dart';
 import '../login/login.dart';
+
 
 class SideMenu extends StatefulWidget {
   const SideMenu({super.key});
@@ -11,8 +15,59 @@ class SideMenu extends StatefulWidget {
 }
 
 class _SideMenuState extends State<SideMenu> {
+  String name = "";
+  String email = "";
+  String logout = "";
+
+
+
+
+
+//Get student personal information
+  Future<void> logOut() async {
+    final response = await http
+        .get(Uri.parse('http://localhost:3000/api/v1/auth/logout'));
+     logout = response.body;
+  }
+  Future<void> fetchPersonalInfo() async {
+    SharedPreferences prefs = await SharedPreferences
+        .getInstance();
+    String? id = prefs.getString('_id');
+    final response = await http
+        .get(Uri.parse('http://localhost:3000/api/v1/students/getStudent/$id'));
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final user = data['data']['student'];
+      setState(() {
+        name = user['name'];
+        email = user['email'];
+
+      });
+
+
+      if (kDebugMode) {
+        print(name);
+      }
+    } else {
+      if (kDebugMode) {
+        print('Request failed with status: ${response.statusCode}.');
+      }
+    }
+
+
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchPersonalInfo();
+
+  }
+
   @override
   Widget build(BuildContext context) {
+
     return Drawer(
       backgroundColor: Colors.white,
       child: ListView(
@@ -37,12 +92,12 @@ class _SideMenuState extends State<SideMenu> {
                     ),
                   ),
                 ),
-                const Text(
-                  "A.B.C Perera De Silva",
-                  style: TextStyle(color: Colors.white, fontSize: 20),
+                 Text(
+                  name,
+                  style: const TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 Text(
-                  "pereradesiva123@gmail.com",
+                  email,
                   style: TextStyle(
                     color: Colors.blue[400],
                     fontSize: 15,
@@ -150,16 +205,19 @@ class _SideMenuState extends State<SideMenu> {
                     fontSize: 20,
                     fontWeight: FontWeight.bold)),
             onTap: () {
+
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text("Confirm Logout"),
+                    title: const Text("Are you sure log out!!"),
                     content: const Text("Are you sure you want to logout ?"),
                     actions: [
                       TextButton(
-                        child: Text("Cancel"),
+
+                        child: const Text("Cancel"),
                         onPressed: () {
+                          logOut();
                           Navigator.of(context).pop();
                         },
                       ),
@@ -170,6 +228,8 @@ class _SideMenuState extends State<SideMenu> {
                               .getInstance();
                           await prefs.remove('_id');
                           await prefs.remove('token');
+
+                          if (!mounted) return;
                           Navigator.push(
                             context,
                             MaterialPageRoute(
