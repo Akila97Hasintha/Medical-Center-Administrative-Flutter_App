@@ -88,7 +88,7 @@ class _Loding_pageState extends State<Loding_page> {
                   fontWeight:  FontWeight.w400,
                   height:  10,
                   letterSpacing:  3.75,
-                  color:  Color(0xff011422),
+                  color:  const Color(0xff011422),
                 ),
               ),
             ),

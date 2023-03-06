@@ -25,7 +25,7 @@ class _LoginFormState extends State<LoginForm> {
 
   var email="";
   var password="";
-  var id="";
+  //var id="";
       TextEditingController nameController = TextEditingController();
       TextEditingController passwordController = TextEditingController();
       final _formkey = GlobalKey<FormState>();
@@ -157,40 +157,34 @@ class _LoginFormState extends State<LoginForm> {
                               ),
 
                               onPressed: () async {
-                                if(_formkey.currentState!.validate()){
+                                if (_formkey.currentState!.validate()) {
                                   if (kDebugMode) {
                                     print('Success');
+                                    print(email);
                                   }
-                                }
-                                if (kDebugMode) {
-                                  print(email);
-                                }
-                                // pass to email to the endpoint
-                                signup(email, password);
-                                SharedPreferences prefs = await SharedPreferences.getInstance();
 
-                                String? token =prefs.getString("token");
-                                String? id =prefs.getString("_id");
-                                id=id!;
-                                //constraint.id = _id!;
-                                if (kDebugMode) {
-                                  print(id);
-                                }
 
-                                //get token
 
-                                if(token != null){
-                                  if(!mounted) return;
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(builder: (context) => Builder(
-                                      builder: (BuildContext builderContext) => FabTabs(selectedIndex:0),
-                                    )),
+
+
+                                 // pass to email to the endpoint
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        content: Row(
+                                          children: const <Widget>[
+                                            CircularProgressIndicator(),
+                                            SizedBox(width: 20),
+                                            Text("Logging in..."),
+                                          ],
+                                        ),
+                                      );
+                                    },
                                   );
-                                }else{
-                                  if (kDebugMode) {
-                                    print("login error");
+                                  signup(email, password);
 
-                                  }
                                 }
 
                               },
@@ -236,42 +230,99 @@ class _LoginFormState extends State<LoginForm> {
           ),
         );
 
+
+  }
+  // Authontication for login
+  signup(email, password) async{
+    var url = "http://localhost:3000/api/v1/auth/login";
+    final response = await http.post(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'email':email,'password':password,
+      }),
+    );
+
+    if (kDebugMode) {
+      print(response.body);
+    }
+    var parse = jsonDecode(response.body);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if(response.statusCode == 200){
+
+      if(parse['status'] == "success"){
+        var user = parse["data"]["user"];
+        var userId = user["_id"];
+        await prefs.setString('_id', userId);
+        await prefs.setString('token', parse["token"]);
+        if (!mounted) return;
+       Navigator.pop(context);
+        pageRoute();
+
+      }
+
+
+
+    }else{
+      if(parse['status'] == "fail"){
+        await prefs.setString('message', parse['message']);
+      }
+      String? message = prefs.getString("message");
+      if (!mounted) return;
+      Navigator.pop(context);
+      if (kDebugMode) {
+        print("login faild");
+      }
+      if (kDebugMode) {
+        print(message);
+      }
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Login Failed"),
+            content: Text(message!),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () =>
+                    Navigator.pop(context),
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+
+    }
+
+
+
+  }
+
+  Future<void> pageRoute() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString("token");
+
+
+    if(token != null) {
+      if (!mounted) return;
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) =>
+            Builder(
+              builder: (BuildContext builderContext) =>
+                  FabTabs(selectedIndex: 0),
+            )),
+      );
+    }
   }
 }
 
-// Authontication for login
-
-signup(email, password) async{
-  var url = "http://localhost:3000/api/v1/auth/login";
-  final response = await http.post(
-    Uri.parse(url),
-    headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-    },
-    body: jsonEncode(<String, String>{
-      'email':email,'password':password,
-    }),
-  );
-
- if (kDebugMode) {
-   print(response.body);
- }
-
-
-  var parse = jsonDecode(response.body);
-  var user = parse["data"]["user"];
-  var userId = user["_id"];
 
 
 
-  //print(userId);
-  SharedPreferences prefs = await SharedPreferences.getInstance();
- await prefs.setString('_id', userId);
-  await prefs.setString('token', parse["token"]);
-
-
-
-}
 
 
 

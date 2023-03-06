@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:shared_preferences/shared_preferences.dart' ;
 import '../bottomTabBar/FabTabs.dart';
 import '../login/login.dart';
 
@@ -165,7 +165,11 @@ class _SideMenuState extends State<SideMenu> {
                       ),
                       TextButton(
                         child: const Text('Logout'),
-                        onPressed: () {
+                        onPressed: () async {
+                          SharedPreferences prefs = await SharedPreferences
+                              .getInstance();
+                          await prefs.remove('_id');
+                          await prefs.remove('token');
                           Navigator.push(
                             context,
                             MaterialPageRoute(
