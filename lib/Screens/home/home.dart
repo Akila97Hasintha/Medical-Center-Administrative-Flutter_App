@@ -17,11 +17,8 @@ class _HomeState extends State<Home> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(120.0),
         child: AppBar(
-          //title: Text("Medical Center"),
-          //title: Text("Medical Center",style: TextStyle(color: Colors.white,fontSize: 25)),
           backgroundColor: const Color(0xff011422),
           toolbarHeight: 150,
-
           centerTitle: true,
           title: Column(
             children: [
@@ -40,35 +37,214 @@ class _HomeState extends State<Home> {
       ),
       body: ListView(
         children: [
-          //Container( // SizedBox or Container Can Add
+          // Can Add SizedBox or Container
           SizedBox(
-            height: 200,
+            height: 250,
             child: Column(
-              children: const [
-                Text('Text 1'),
-                Text('Text 2'),
-                Text('Text 1'),
-                Text('Text 2'),
-                Text('Text 1'),
-                Text('Text 2'),
-                Text('Text 1'),
+              children: [
+                const SizedBox(height: 20),
+                Image.asset(
+                  'assests/newruh1.png',
+                  height: 100,
+                  //width: 150,
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'Welcome to Ruhuna Medical Center',
+                  style: TextStyle(
+                      fontSize: 22,
+                      color: Color(0xFF0D47A1),
+                      fontWeight: FontWeight.bold),
+                ),
+                const SizedBox(height: 20),
+                const Text(
+                  'All Registered students and staff are entitled to '
+                      'free consultations, free basic medicinal drugs, '
+                      'free laboratory services and other required '
+                      'health services.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.black87, fontSize: 15),
+                ),
               ],
             ),
           ),
+          const SizedBox(
+            height: 10,
+          ),
+          Row(
+            children: const [
+              SizedBox(width: 20),
+              Text(
+                'Our Services',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Color(0xFF0D47A1),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                vertical: 5, horizontal: 60), // outer padding
+            child: Container(
+              padding: const EdgeInsets.all(10), // inner padding
+              decoration: BoxDecoration(
+                color: Colors.white30,
+                border: Border.all(color: Colors.grey, width: 2),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Column(
+                children: const [
+                  Text.rich(
+                    TextSpan(
+                      children: [
+                        WidgetSpan(
+                          child: Icon(Icons.remove_red_eye,
+                              color: Color(0xff011422)),
+                          alignment: PlaceholderAlignment.middle,
+                        ),
+                        TextSpan(
+                          text: '  Free Checkup',
+                          style: TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.bold),
+                        ),
+                      ],
+                    ),
+                  ),
 
-          Container(
-            height: 200,
-            color: Colors.grey,
-            child: const Text("Medical Center Home Page"),
+                  SizedBox(
+                      height: 10), // add some space between the text widgets
+                  Text('Medical Center Services',
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
+                  Text('Medical Center Services',
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
+                  Text('Medical Center Services',
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
+                  Text('Medical Center Services',
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
+                  Text('Medical Center Services',
+                      style: TextStyle(
+                          color: Colors.black87,
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold)),
+                  //SizedBox(height: 20),
+                ],
+              ),
+            ),
           ),
-          Container(
-            height: 200,
-            color: Colors.green,
+
+          const SizedBox(height: 10),
+          Row(
+            children: const [
+              SizedBox(width: 20),
+              Text(
+                'News',
+                style: TextStyle(
+                  fontSize: 20,
+                  color: Color(0xFF0D47A1),
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
-          Container(
-            height: 200,
-            color: Colors.purple,
+          const SizedBox(height: 10),
+
+          Padding(
+            //padding: EdgeInsets.all(15), // outer padding for all
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+            child: Container(
+              padding: const EdgeInsets.all(10), // inner padding
+              decoration: BoxDecoration(
+                color: Colors.white30,
+                border: Border.all(color: Colors.grey, width: 2),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Text(
+                'Most young people are not getting latest Covid-19 booster.',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+            child: Container(
+              padding: const EdgeInsets.all(10), // inner padding
+              decoration: BoxDecoration(
+                color: Colors.white30,
+                border: Border.all(color: Colors.grey, width: 2),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Text(
+                'Most young people are not getting latest Covid-19 booster.',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+            child: Container(
+              padding: const EdgeInsets.all(10), // inner padding
+              decoration: BoxDecoration(
+                color: Colors.white30,
+                border: Border.all(color: Colors.grey, width: 2),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Text(
+                'Most young people are not getting latest Covid-19 booster.',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+            child: Container(
+              padding: const EdgeInsets.all(10), // inner padding
+              decoration: BoxDecoration(
+                color: Colors.white30,
+                border: Border.all(color: Colors.grey, width: 2),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Text(
+                'Most young people are not getting latest Covid-19 booster.',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
+            child: Container(
+              padding: const EdgeInsets.all(10), // inner padding
+              decoration: BoxDecoration(
+                color: Colors.white30,
+                border: Border.all(color: Colors.grey, width: 2),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Text(
+                'Most young people are not getting latest Covid-19 booster.',
+                style: TextStyle(fontSize: 18),
+              ),
+            ),
+          ),
+          const SizedBox(height: 10),
+
+          // Container(
+          //   height: 200,
+          //   color: Colors.greenAccent,
+          // ),
         ],
       ),
     );
