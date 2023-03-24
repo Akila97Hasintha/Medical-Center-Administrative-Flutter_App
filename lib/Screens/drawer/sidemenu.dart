@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart' ;
 import '../bottomTabBar/FabTabs.dart';
 import '../login/login.dart';
+import '../updatePassword/updatePassword.dart';
+import '../About Us/about.dart';
 
 
 class SideMenu extends StatefulWidget {
@@ -196,6 +198,22 @@ class _SideMenuState extends State<SideMenu> {
                       builder: (context) => FabTabs(selectedIndex: 5)))
             },
           ),
+          // Update password page navigation
+          ListTile(
+            leading: const Icon(Icons.key,
+                size: 35, color: Color(0xff011422)),
+            title: const Text("Update Password",
+                style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const UpdatePassword()),
+              )
+            },
+          ),
           ListTile(
             leading: const Icon(Icons.logout_outlined,
                 size: 35, color: Color(0xff011422)),
@@ -241,6 +259,21 @@ class _SideMenuState extends State<SideMenu> {
                   );
                 },
               );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.info_rounded,
+                size: 35, color: Color(0xff011422)),
+            title: const Text("About Us",
+                style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold)),
+            onTap: () => {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const About()),
+              )
             },
           ),
         ],

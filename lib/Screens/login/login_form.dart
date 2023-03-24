@@ -198,7 +198,7 @@ class _LoginFormState extends State<LoginForm> {
                             onPressed: (){
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(builder: (context) => const f_password()),
+                                MaterialPageRoute(builder: (context) => const F_password()),
                               );
                             },
                             child: const Text('Fogot Password?'),
@@ -239,6 +239,7 @@ class _LoginFormState extends State<LoginForm> {
       Uri.parse(url),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
+
       },
       body: jsonEncode(<String, String>{
         'email':email,'password':password,

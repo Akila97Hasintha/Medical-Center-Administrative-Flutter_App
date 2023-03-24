@@ -74,17 +74,17 @@ class _HomeState extends State<News> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Container(
-                  //   height: 200,
-                  //   decoration: BoxDecoration(
-                  //     image: DecorationImage(
-                  //       fit: BoxFit.cover,
-                  //       image: NetworkImage(
-                  //         news[index]['image']!,
-                  //       ),
-                  //     ),
-                  //   ),
-                  // ),
+                  Container(
+                    height: 200,
+                    decoration: const BoxDecoration(
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          'assests/newruh1.png',
+                        ),
+                      ),
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Text(
