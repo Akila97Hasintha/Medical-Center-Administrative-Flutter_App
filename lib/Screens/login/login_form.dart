@@ -247,7 +247,7 @@ class _LoginFormState extends State<LoginForm> {
     );
 
     if (kDebugMode) {
-      print(response.body);
+     // print(response.body);
     }
     var parse = jsonDecode(response.body);
     SharedPreferences prefs = await SharedPreferences.getInstance();

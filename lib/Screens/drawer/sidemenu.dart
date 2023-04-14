@@ -41,15 +41,16 @@ class _SideMenuState extends State<SideMenu> {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       final user = data['data']['student'];
-      setState(() {
-        name = user['name'];
-        email = user['email'];
+      if (user != null) {
+        setState(() {
+          name = user['name'] ?? '';
+          email = user['email'] ?? '';
 
-      });
-
-
-      if (kDebugMode) {
-        print(name);
+        });
+      } else {
+        if (kDebugMode) {
+          print('User object is null.');
+        }
       }
     } else {
       if (kDebugMode) {

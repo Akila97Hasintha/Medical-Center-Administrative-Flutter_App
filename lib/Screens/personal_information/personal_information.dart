@@ -1,9 +1,9 @@
-import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../../Services/api_data.dart';
 import '../drawer/sidemenu.dart';
+import '/Models/studentModel.dart';
 
 
 class PersonalInformation extends StatefulWidget {
@@ -12,75 +12,46 @@ class PersonalInformation extends StatefulWidget {
   @override
   State<PersonalInformation> createState() => _HomeState();
 }
-//String id =constraint.id;
+
 
 class _HomeState extends State<PersonalInformation> {
-  String name = "";
-  String email = "";
-  String role = "";
-  String dayOb = "";
-  String rNum = "";
-  int age =0;
-  String fac = "";
-  //String mobile = "";
-  //String Gender ="";
-  //String address = "";
+  late Student _student;
+  bool _isLoading = true;
 
 
-
-
-
-
-//Get student personal information
-
-  Future<void> fetchPersonalInfo() async {
-    SharedPreferences prefs = await SharedPreferences
-        .getInstance();
-    String? id = prefs.getString('_id');
-    final response = await http
-        .get(Uri.parse('http://localhost:3000/api/v1/students/getStudent/$id'));
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final user = data['data']['student'];
-      setState(() {
-        name = user['name'];
-        email = user['email'];
-        role = user['role'];
-        dayOb = user['dateOfBirth'];
-        rNum = user['regNo'];
-        age = user['age'];
-        //fac = user['faculty'];
-        //mobile = user['mobile'];
-        //Gender = user['gender'];
-        //address = user['address'];
-
-
-
-      });
-
-
-      if (kDebugMode) {
-        print(name);
-      }
-    } else {
-      if (kDebugMode) {
-        print('Request failed with status: ${response.statusCode}.');
-      }
-    }
-
+  @override
+  void initState()  {
+    super.initState();
+    _fetchPersonalInfo();
 
   }
 
-  @override
-  void initState() {
-    super.initState();
-    fetchPersonalInfo();
-
+  // call the api services
+  Future<void> _fetchPersonalInfo() async {
+    final apiData = ApiData();
+    final student = await apiData.fetchPersonalInfo();
+    setState(() {
+      _student = student;
+      _isLoading = false;
+    });
   }
   @override
   Widget build(BuildContext context) {
-
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+////// get data from studennt model
+    final name = _student.name;
+    final email = _student.email;
+    final role = _student.role;
+    final dayOb = _student.dayOb;
+    final rNum = _student.rNum;
+    final age = _student.age;
+     final fac = _student.fac;
+    final mobile = _student.mobile;
+    final gender = _student.Gender;
+    final address = _student.address;
+    final civilStatus = _student.civilStatus;
 
     return Scaffold(
       drawer: const SideMenu(),
@@ -163,10 +134,10 @@ class _HomeState extends State<PersonalInformation> {
                     subtitle: Text(email,
                         style: const TextStyle(color: Colors.pink)),
                   ),
-                  const ListTile(
-                    leading: Icon(Icons.phone, color: Colors.green),
-                    title: Text('Phone', style: TextStyle(color: Colors.black)),
-                    subtitle: Text('mobile'),
+                   ListTile(
+                    leading: const Icon(Icons.phone, color: Colors.green),
+                    title: const Text('Phone', style: TextStyle(color: Colors.black)),
+                    subtitle: Text(mobile),
                   ),
                   ListTile(
                     leading:
@@ -175,23 +146,23 @@ class _HomeState extends State<PersonalInformation> {
                         style: TextStyle(color: Colors.black)),
                     subtitle: Text(dayOb),
                   ),
-                  const ListTile(
-                    leading: Icon(Icons.location_on, color: Colors.orange),
+                  ListTile(
+                    leading: const Icon(Icons.location_on, color: Colors.orange),
                     title:
-                        Text('Address', style: TextStyle(color: Colors.black)),
-                    subtitle: Text('address'),
+                        const Text('Address', style: TextStyle(color: Colors.black)),
+                    subtitle: Text(address),
                   ),
-                  const ListTile(
-                    leading: Icon(
+                   ListTile(
+                    leading: const Icon(
                       Icons.person,
                       color: Colors.black,
                     ),
-                    title: Text(
+                    title: const Text(
                       'Faculty',
                       style: TextStyle(color: Colors.black),
                     ),
                     subtitle: Text(
-                      'fac',
+                      fac,
                       //style: TextStyle(color: Colors.black),
                     ),
                   ),
@@ -208,12 +179,25 @@ class _HomeState extends State<PersonalInformation> {
                         style: TextStyle(color: Colors.black)),
                     subtitle: Text(role),
                   ),
-                  const ListTile(
-                    leading: Icon(Icons.location_on, color: Colors.orange),
+                  ListTile(
+                    leading: const Icon(Icons.people_outline_sharp, color: Colors.orange),
                     title:
-                        Text('Gender', style: TextStyle(color: Colors.black)),
-                    subtitle: Text('Gender'),
+                        const Text('Gender', style: TextStyle(color: Colors.black)),
+                    subtitle: Text(gender),
                   ),
+                  ListTile(
+                    leading: const Icon(Icons.people_outline_sharp, color: Colors.orange),
+                    title:
+                    const Text('age', style: TextStyle(color: Colors.black)),
+                    subtitle: Text(age.toString()),
+                  ),
+                  ListTile(
+                    leading: const Icon(Icons.people_outline_sharp, color: Colors.orange),
+                    title:
+                    const Text('Civil Status', style: TextStyle(color: Colors.black)),
+                    subtitle: Text(civilStatus),
+                  ),
+
 
 
 

@@ -25,10 +25,10 @@ class _HomeState extends State<News> {
 
       final response = await http.get(Uri.parse('http://localhost:3000/api/v1/news/getAllNews'));
 
-
+     // print(response.body);
       if (response.statusCode == 200) {
         List<dynamic> newsList = jsonDecode(response.body)['data']['news'];
-       // print('news?: $newsList');
+        //print('news?: $newsList');
         List<Map<String, String>> newNews =[];
         for (var newsMap in newsList) {
           Map<String, String> newsItem = {

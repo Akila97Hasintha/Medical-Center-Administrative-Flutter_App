@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../drawer/sidemenu.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
+import '../home/home.dart';
 
 
 class UpdatePassword extends StatefulWidget {
@@ -31,6 +32,11 @@ class _HomeState extends State<UpdatePassword> {
   //String mobile = "";
   //String Gender ="";
   //String address = "";
+// Update password api call
+  String passwordCurrent = "";
+  String password = "";
+  String passwordConfirm = "";
+
 
 
 
@@ -180,7 +186,7 @@ class _HomeState extends State<UpdatePassword> {
                         ),
                         validator: Validators.compose([Validators.required('require password..')] ),
                         onChanged:(value){
-                          //password = value;
+                          passwordCurrent = value;
                         },
                       ),
                     ),
@@ -213,7 +219,7 @@ class _HomeState extends State<UpdatePassword> {
                         ),
                         validator: Validators.compose([Validators.required('require password..')] ),
                         onChanged:(value){
-                          //password = value;
+                          password = value;
                         },
                       ),
                     ),
@@ -246,7 +252,7 @@ class _HomeState extends State<UpdatePassword> {
                         ),
                         validator: Validators.compose([Validators.required('require password..')] ),
                         onChanged:(value){
-                          //password = value;
+                          passwordConfirm = value;
                         },
                       ),
                     ),
@@ -271,22 +277,23 @@ class _HomeState extends State<UpdatePassword> {
 
 
                             // pass to email to the endpoint
-                            showDialog(
-                              context: context,
-                              barrierDismissible: false,
-                              builder: (BuildContext context) {
-                                return AlertDialog(
-                                  content: Row(
-                                    children: const <Widget>[
-                                      CircularProgressIndicator(),
-                                      SizedBox(width: 20),
-                                      Text("Logging in..."),
-                                    ],
-                                  ),
-                                );
-                              },
-                            );
-                            //signup(email, password);
+                            // showDialog(
+                            //   context: context,
+                            //   barrierDismissible: false,
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       content: Row(
+                            //         children: const <Widget>[
+                            //           CircularProgressIndicator(),
+                            //           SizedBox(width: 20),
+                            //           Text("Logging in..."),
+                            //         ],
+                            //       ),
+                            //     );
+                            //   },
+                            // );
+                            updatePassword(passwordCurrent, password, passwordConfirm);
+
 
                           }
 
@@ -310,6 +317,92 @@ class _HomeState extends State<UpdatePassword> {
         ),
       ),
     );
+  }
+
+  updatePassword(passwordCurrent, password,passwordConfirm) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? id = prefs.getString('_id');
+    var url = "http://localhost:3000/api/v1/auth/updatePassword/$id";
+    final response = await http.patch(
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+
+      },
+      body: jsonEncode(<String, String>{
+        'passwordCurrent':passwordCurrent,'password':password,'passwordConfirm':passwordConfirm
+      }),
+    );
+
+    if (kDebugMode) {
+      print(response.body);
+    }
+    var parse = jsonDecode(response.body);
+
+
+    if(response.statusCode == 200){
+
+      if(parse['status'] == "success"){
+
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Update Password"),
+              content: const Text("Updated Successfully"),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () =>
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const Home()),
+                ),
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+      }
+
+
+
+    }else{
+      if(parse['status'] == "error"){
+        await prefs.setString('update_message', parse['message']);
+        String? message = prefs.getString("update_message");
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text("Update Password"),
+              content:  Text(message!),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () =>
+                      Navigator.pop(context),
+                  child: const Text("OK"),
+                ),
+              ],
+            );
+          },
+        );
+        if (kDebugMode) {
+          print(message);
+        }
+      }
+
+      //if (!mounted) return;
+
+
+
+
+
+
+    }
+
+
+
   }
 
 }
