@@ -14,6 +14,7 @@ class News extends StatefulWidget {
 
 class _HomeState extends State<News> {
   List<Map<String, String>> news =[];
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -41,6 +42,7 @@ class _HomeState extends State<News> {
         }
         setState(() {
           news = newNews;
+          _isLoading = false;
         });
 
       } else {
@@ -54,6 +56,9 @@ class _HomeState extends State<News> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
     return Scaffold(
       drawer: const SideMenu(),
       appBar: PreferredSize(
