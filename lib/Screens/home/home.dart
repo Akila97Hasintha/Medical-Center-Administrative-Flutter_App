@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import '../drawer/sidemenu.dart';
@@ -10,6 +13,29 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  late Timer _timer;
+  int _currentIndex = 0;
+  final List<String> _imageUrls = [
+    'assests/RuhunaHome1.jpg',
+    'assests/RuhunaHome2.jpg',
+    'assests/RuhunaHome3.jpg',
+
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+   _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      setState(() {
+        _currentIndex = (_currentIndex + 1) % _imageUrls.length;
+      });
+    });
+  }
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -39,34 +65,51 @@ class _HomeState extends State<Home> {
         body: ListView(
           children: [
             // Can Add SizedBox or Container
-            SizedBox(
+            Container(
+              width:double.infinity,
               height: 250,
-              child: Column(
-                children: [
-                  const SizedBox(height: 20),
-                  Image.asset(
-                    'assests/newruh1.png',
-                    height: 100,
-                    //width: 150,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: NetworkImage(_imageUrls[_currentIndex]),
+                  fit: BoxFit.cover,
+                ),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 1,sigmaY: 1),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.blue.withOpacity(0.3),
+                    borderRadius: BorderRadius.circular(.3),
                   ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Welcome to Ruhuna Medical Center',
-                    style: TextStyle(
-                        fontSize: 22,
-                        color: Color(0xFF0D47A1),
-                        fontWeight: FontWeight.bold),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      Image.asset(
+                        'assests/newruh1.png',
+                        height: 100,
+                        //width: 150,
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Welcome to Ruhuna Medical Center',
+                        style: TextStyle(
+                            fontSize: 24,
+                            color: Color(0xFF000000),
+                            fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'All Registered students and staff are entitled to '
+                            'free consultations, free basic medicinal drugs, '
+                            'free laboratory services and other required '
+                            'health services.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.black, fontSize: 15),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'All Registered students and staff are entitled to '
-                        'free consultations, free basic medicinal drugs, '
-                        'free laboratory services and other required '
-                        'health services.',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.black87, fontSize: 15),
-                  ),
-                ],
+                ),
               ),
             ),
             const SizedBox(

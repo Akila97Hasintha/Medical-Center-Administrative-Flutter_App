@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   'assests/black_theam1.png',
                   width: MediaQuery.of(context).size.width,
-                  fit: BoxFit.fill,
+                  fit: BoxFit.cover,
                 ),
               ),
             ),

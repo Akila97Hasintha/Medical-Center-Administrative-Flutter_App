@@ -1,9 +1,15 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import '../drawer/sidemenu.dart';
+
+
+
+
+
 
 class DoctorAvailable extends StatefulWidget {
   const DoctorAvailable({Key? key}) : super(key: key);
@@ -14,19 +20,69 @@ class DoctorAvailable extends StatefulWidget {
 
 class _HomeState extends State<DoctorAvailable> {
 
-  late Future<Map<String, dynamic>> futureData;
+  late String doctor1name ="";
+  late String doctor1status ="";
+  late String doctor2name ="";
+  late String doctor2status ="";
+  late String doctor3name="";
+  late String doctor3status="";
+  late String doctor4name="";
+  late String doctor4status="";
+  late String doctor5name="";
+  late String doctor5status="";
+  late String date = "";
+
+  // get Doctor availability
+  fetchData() async {
+    final response = await http.get(Uri.parse('http://localhost:3000/api/v1/doctorAvailability/mobile'));
+   // print(response.body);
+  if(response.statusCode == 200) {
+    var data = jsonDecode(response.body);
+    var doctor1 = data['data']['DoctorOne'];
+    var doctor2 = data['data']['DoctorTwo'];
+    var doctor3 = data['data']['DoctorThree'];
+    var doctor4 = data['data']['PhysioTherapist'];
+    var doctor5 = data['data']['Dentist'];
+    var timeD = data['data']['TimeStamp'];
 
 
-  late final bool isActive = true;
+    setState(() {
+      date = timeD;
+      doctor1name = doctor1['name'];
+      doctor1status = doctor1['status'];
+      doctor2name = doctor2['name'];
+      doctor2status = doctor2['status'];
+      doctor3name = doctor3['name'];
+      doctor3status = doctor3['status'];
+      doctor4name = doctor4['name'];
+      doctor4status = doctor4['status'];
+      doctor5name = doctor5['name'];
+      doctor5status = doctor5['status'];
+      _isLoading = false;
+    }
+    );
+  }else{
+    log('error get doctor Avaliablity');
+   // print("error");
+  }
+
+
+
+
+  }
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
-    futureData = fetchData();
+    fetchData();
   }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
     return Scaffold(
       drawer: const SideMenu(),
       appBar: PreferredSize(
@@ -38,11 +94,6 @@ class _HomeState extends State<DoctorAvailable> {
         ),
       ),
       body: Center(
-        child: FutureBuilder<Map<String, dynamic>>(
-          future: futureData,
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Center(
                 child: Column(
                   children: [
                     const SizedBox(
@@ -74,9 +125,9 @@ class _HomeState extends State<DoctorAvailable> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
-                              'doctor1  : ',
-                              style: TextStyle(
+                             Text(
+                              doctor1name,
+                              style: const TextStyle(
                                 //color: Colors.black,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 20,
@@ -87,11 +138,11 @@ class _HomeState extends State<DoctorAvailable> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: snapshot.data!['doctor1'] == 'Available'? Colors.green : Colors.grey,
+                                color: doctor1status == 'Available'? Colors.green : Colors.red,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
-                                snapshot.data!['doctor1'] == 'Available' ? 'Available' : 'Unavailable',
+                                doctor1status == 'Available' ? 'Available' : 'Not Available',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -106,9 +157,9 @@ class _HomeState extends State<DoctorAvailable> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
-                              'doctor2  : ',
-                              style: TextStyle(
+                             Text(
+                              doctor2name,
+                              style: const TextStyle(
                                 //color: Colors.black,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 20,
@@ -119,11 +170,11 @@ class _HomeState extends State<DoctorAvailable> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: snapshot.data!['doctor2'] == 'Available'? Colors.green : Colors.grey,
+                                color: doctor2status == 'Available'? Colors.green : Colors.red,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
-                                snapshot.data!['doctor2'] == 'Available' ? 'Available' : 'Unavailable',
+                                doctor2status == 'Available' ? 'Available' : 'Not Available',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -138,9 +189,9 @@ class _HomeState extends State<DoctorAvailable> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Text(
-                              'doctor3  : ',
-                              style: TextStyle(
+                            Text(
+                              doctor3name,
+                              style: const TextStyle(
                                 //color: Colors.black,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 20,
@@ -151,11 +202,11 @@ class _HomeState extends State<DoctorAvailable> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: snapshot.data!['doctor3'] == 'Available'? Colors.green : Colors.grey,
+                                color: doctor3status == 'Available'? Colors.green : Colors.red,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
-                                snapshot.data!['doctor3'] == 'Available' ? 'Available' : 'Unavailable',
+                                doctor3status == 'Available' ? 'Available' : 'Not Available',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -164,47 +215,6 @@ class _HomeState extends State<DoctorAvailable> {
                             ),
                           ],
                         ),
-                        const SizedBox(
-                          height: 40,
-                        ),
-                        const Text(
-                          "Dental Doctors",
-                          style: TextStyle(
-                            color: Colors.blue,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 25,
-                          ),),
-                        const SizedBox(height: 20,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              'Dentist  : ',
-                              style: TextStyle(
-                                //color: Colors.black,
-                                fontWeight: FontWeight.normal,
-                                fontSize: 20,
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8, vertical: 4),
-                              decoration: BoxDecoration(
-                                color: snapshot.data!['dentist'] == 'Available'? Colors.green : Colors.grey,
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Text(
-                                snapshot.data!['dentist'] == 'Available' ? 'Available' : 'Unavailable',
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
                         const SizedBox(
                           height: 40,
                         ),
@@ -219,9 +229,50 @@ class _HomeState extends State<DoctorAvailable> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                             const Text(
-                              'physiotherapists  : ',
-                               style: TextStyle(
+                             Text(
+                              doctor4name,
+                              style: const TextStyle(
+                                //color: Colors.black,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 20,
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8, vertical: 4),
+                              decoration: BoxDecoration(
+                                color: doctor4status == 'Available'? Colors.green : Colors.red,
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Text(
+                                doctor4status == 'Available' ? 'Available' : 'Not Available',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                        const SizedBox(
+                          height: 40,
+                        ),
+                        const Text(
+                          "Dental Doctors",
+                          style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
+                          ),),
+                        const SizedBox(height: 20,),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                             Text(
+                              doctor5name,
+                               style: const TextStyle(
                                  //color: Colors.black,
                                  fontWeight: FontWeight.normal,
                                  fontSize: 20,
@@ -232,11 +283,11 @@ class _HomeState extends State<DoctorAvailable> {
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 8, vertical: 4),
                               decoration: BoxDecoration(
-                                color: snapshot.data!['physiotherapists'] == 'Available'? Colors.green : Colors.grey,
+                                color: doctor5status== 'Available'? Colors.green : Colors.red,
                                 borderRadius: BorderRadius.circular(10),
                               ),
                               child: Text(
-                                snapshot.data!['physiotherapists'] == 'Available' ? 'Available' : 'Unavailable',
+                                doctor5status == 'Available' ? 'Available' : 'Not Available',
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 12,
@@ -248,8 +299,8 @@ class _HomeState extends State<DoctorAvailable> {
                         const SizedBox(
                           height: 40,
                         ),
-                        Text(
-                            'Last Updte : ${snapshot.data!['date']}',
+                         Text(
+                            'Last Updte : $date',
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 18,
@@ -263,26 +314,16 @@ class _HomeState extends State<DoctorAvailable> {
 
                   ],
                 ),
-              );
-            } else if (snapshot.hasError) {
-              return Text('${snapshot.error}');
-            }
-            return const CircularProgressIndicator();
-          },
-        ),
-      ),
+              ),
+
+
+
+
 
     );
   }
 }
 
 // get Doctor Availability of doctors
-  Future<Map<String, dynamic>> fetchData() async {
-    final response = await http.get(Uri.parse('http://localhost:3000/api/v1/doctorAvailability'));
-    if (response.statusCode == 200) {
-      return jsonDecode(response.body)['data']['doctorAvailabilityRes'];
-    } else {
-      throw Exception('Failed to load data');
-    }
-  }
+
 

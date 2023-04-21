@@ -1,5 +1,4 @@
 
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import '../../Services/api_data.dart';
 import '../drawer/sidemenu.dart';
@@ -40,7 +39,7 @@ class _HomeState extends State<PersonalInformation> {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
-////// get data from studennt model
+////// get data from student model
     final name = _student.name;
     final email = _student.email;
     final role = _student.role;
@@ -141,7 +140,7 @@ class _HomeState extends State<PersonalInformation> {
                   ),
                   ListTile(
                     leading:
-                        const Icon(Icons.calendar_month_rounded, color: Colors.blue),
+                        const Icon(Icons.cake, color: Colors.blue),
                     title: const Text('Date of Birth',
                         style: TextStyle(color: Colors.black)),
                     subtitle: Text(dayOb),
@@ -154,7 +153,7 @@ class _HomeState extends State<PersonalInformation> {
                   ),
                    ListTile(
                     leading: const Icon(
-                      Icons.person,
+                      Icons.home,
                       color: Colors.black,
                     ),
                     title: const Text(
@@ -168,19 +167,28 @@ class _HomeState extends State<PersonalInformation> {
                   ),
 
                   ListTile(
-                    leading: const Icon(Icons.phone, color: Colors.green),
+                    leading: const Icon(Icons.app_registration, color: Colors.green),
                     title: const Text("Registration No", style: TextStyle(color: Colors.black)),
                     subtitle: Text(rNum),
                   ),
                   ListTile(
                     leading:
-                        const Icon(Icons.calendar_month_rounded, color: Colors.blue),
+                    const Icon(
+                      Icons.business_center,
+                      size: 20,
+                      color: Colors.blue,
+                    ),
+
                     title: const Text('Role',
                         style: TextStyle(color: Colors.black)),
                     subtitle: Text(role),
                   ),
                   ListTile(
-                    leading: const Icon(Icons.people_outline_sharp, color: Colors.orange),
+                    leading:  Icon(
+                      gender == 'male' ? Icons.male : Icons.female,
+                      size: 20,
+                      color: gender == 'male' ? Colors.blue : Colors.pink,
+                    ),
                     title:
                         const Text('Gender', style: TextStyle(color: Colors.black)),
                     subtitle: Text(gender),
@@ -192,7 +200,11 @@ class _HomeState extends State<PersonalInformation> {
                     subtitle: Text(age.toString()),
                   ),
                   ListTile(
-                    leading: const Icon(Icons.people_outline_sharp, color: Colors.orange),
+                    leading: Icon(
+                      civilStatus == 'single' ? Icons.person : Icons.favorite,
+                      size: 40,
+                      color: civilStatus == 'single' ? Colors.green : Colors.red,
+                    ),
                     title:
                     const Text('Civil Status', style: TextStyle(color: Colors.black)),
                     subtitle: Text(civilStatus),
