@@ -419,6 +419,10 @@ class _HomeState extends State<Home> {
                     ],
                   ),
                   const SizedBox(height: 20),
+                  Image.asset(
+                    'assests/bmi_range.jpg',
+                    fit: BoxFit.contain,
+                  ),
                 ],
               ),
             ),
