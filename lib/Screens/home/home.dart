@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
+import '../bottomTabBar/FabTabs.dart';
 import '../drawer/sidemenu.dart';
 
 class Home extends StatefulWidget {
@@ -21,43 +22,8 @@ class _HomeState extends State<Home> {
     'assests/RuhunaHome3.jpg',
   ];
 
-  double _height = 150.0;
-  double _weight = 54.0;
-  double _bmi = 0.0;
-
-  void _calculateBMI() {
-    setState(() {
-      _bmi = _weight / ((_height / 100.0) * (_height / 100.0));
-    });
-  }
-
-  String getBMICategory() {
-    if (_bmi < 18.5) {
-      return 'Underweight';
-    } else if (_bmi < 25) {
-      return 'Normal';
-    } else if (_bmi < 30) {
-      return 'Overweight';
-    } else if (_bmi < 35) {
-      return 'Obese';
-    } else {
-      return 'Extremely Obese';
-    }
-  }
-
-  Color getBMIColor() {
-    if (_bmi < 18.5) {
-      return Colors.blue;
-    } else if (_bmi < 25) {
-      return Colors.green;
-    } else if (_bmi < 30) {
-      return Colors.yellow;
-    } else if (_bmi < 35) {
-      return Colors.orange;
-    } else {
-      return Colors.red;
-    }
-  }
+  double _buttonSize1 = 120.0;
+  double _buttonSize2 = 120.0;
 
   @override
   void initState() {
@@ -323,110 +289,121 @@ class _HomeState extends State<Home> {
               ),
             ),
             const SizedBox(height: 10),
-
-            Container(
-              padding: const EdgeInsets.all(20),
-              margin: const EdgeInsets.fromLTRB(10, 20, 10, 20),
-              decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+            SizedBox(
+              height: 150,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  const Text(
-                    'Calculate your BMI',
-                    style: TextStyle(
-                        fontSize: 22,
-                        color: Color(0xFF0D47A1),
-                        fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Height (cm): ',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) {
-                            setState(() {
-                              _height = double.tryParse(value) ?? _height;
-                            });
-                          },
+                  MouseRegion(
+                    onEnter: (event) {
+                      setState(() {
+                        _buttonSize1 = 140;
+                      });
+                    },
+                    onExit: (event) {
+                      setState(() {
+                        _buttonSize1 = 120;
+                      });
+                    },
+                    child: SizedBox(
+                      width: _buttonSize1,
+                      height: _buttonSize1,
+                      child: Material(
+                        child: Ink.image(
+                          image: const AssetImage('assests/bmi_calculator.png'),
+                          fit: BoxFit.cover,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      FabTabs(selectedIndex: 6),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Weight (kg): ',
-                        style: TextStyle(fontSize: 20),
-                      ),
-                      SizedBox(
-                        width: 100,
-                        child: TextFormField(
-                          keyboardType: TextInputType.number,
-                          onChanged: (value) {
-                            setState(() {
-                              _weight = double.tryParse(value) ?? _weight;
-                            });
-                          },
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: 150,
-                    child: ElevatedButton(
-                      onPressed: _calculateBMI,
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.grey),
-                      ),
-                      child: const Text('Calculate',
-                          style: TextStyle(fontSize: 18)),
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'BMI: ${_bmi.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                  MouseRegion(
+                    onEnter: (event) {
+                      setState(() {
+                        _buttonSize2 = 140;
+                      });
+                    },
+                    onExit: (event) {
+                      setState(() {
+                        _buttonSize2 = 120;
+                      });
+                    },
+                    child: SizedBox(
+                      width: _buttonSize2,
+                      height: _buttonSize2,
+                      child: Material(
+                        child: Ink.image(
+                          image: const AssetImage('assests/water.png'),
+                          fit: BoxFit.cover,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      FabTabs(selectedIndex: 7),
+                                ),
+                              );
+                            },
+                          ),
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      Text(
-                        '(${getBMICategory()})',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: getBMIColor(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  Image.asset(
-                    'assests/bmi_range.jpg',
-                    fit: BoxFit.contain,
+                    ),
                   ),
                 ],
               ),
             ),
-
+            SizedBox(
+              height: 150,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  MouseRegion(
+                    child: Column(
+                      children: const [
+                        Text(
+                          'BMI Calculator',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF0D47A1),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        // Other widgets...
+                      ],
+                    ),
+                  ),
+                  MouseRegion(
+                    child: Column(
+                      children: const [
+                        Text(
+                          'Daily Water Intake\n       Calculator',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF0D47A1),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        // Other widgets...
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
             // Container(
             //   height: 200,
             //   color: Colors.greenAccent,

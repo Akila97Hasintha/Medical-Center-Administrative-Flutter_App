@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../appointment/appointment.dart';
+import '../calculator/calculator1.dart';
+import '../calculator/calculator2.dart';
 import '../doctor_availability/doctor_availability.dart';
 import '../home/home.dart';
 import '../medical_records/medical_records.dart';
@@ -54,7 +56,11 @@ class _FabTabsState extends State<FabTabs> {
                     ? const MedicalRecords()
                     : currentIndex == 4
                         ? const PersonalInformation()
-                        : const News();
+                        : currentIndex == 5
+                            ? const News()
+                            : currentIndex == 6
+                                ? const Calculator1()
+                                : const Calculator2();
     // : currentIndex == 5
     //     ? const News()
     //     : const Logout();

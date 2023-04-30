@@ -93,6 +93,9 @@ flutter:
   - assests/RuhunaHome2.jpg
   - assests/RuhunaHome3.jpg
   - assests/bmi_range.jpg
+  - assests/bmi_range2.jpg
+  - assests/bmi_calculator.png
+  - assests/water.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
