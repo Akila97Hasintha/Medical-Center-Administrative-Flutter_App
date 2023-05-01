@@ -318,7 +318,7 @@ class _HomeState extends State<Home> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      FabTabs(selectedIndex: 6),
+                                      FabTabs(selectedIndex: 7),
                                 ),
                               );
                             },
@@ -351,7 +351,7 @@ class _HomeState extends State<Home> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      FabTabs(selectedIndex: 7),
+                                      FabTabs(selectedIndex: 8),
                                 ),
                               );
                             },

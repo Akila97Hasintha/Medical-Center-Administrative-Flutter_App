@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart' ;
 import '../bottomTabBar/FabTabs.dart';
 import '../login/login.dart';
-import '../updatePassword/updatePassword.dart';
 import '../About Us/about.dart';
 
 
@@ -211,7 +210,9 @@ class _SideMenuState extends State<SideMenu> {
             onTap: () => {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const UpdatePassword()),
+                MaterialPageRoute(
+                    builder: (context) => FabTabs(selectedIndex: 6)
+                ),
               )
             },
           ),

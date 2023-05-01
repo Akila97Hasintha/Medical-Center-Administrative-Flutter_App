@@ -7,6 +7,7 @@ import '../home/home.dart';
 import '../medical_records/medical_records.dart';
 import '../news/news.dart';
 import '../personal_information/personal_information.dart';
+import '../updatePassword/updatePassword.dart';
 
 class FabTabs extends StatefulWidget {
   int selectedIndex = 0;
@@ -59,8 +60,10 @@ class _FabTabsState extends State<FabTabs> {
                         : currentIndex == 5
                             ? const News()
                             : currentIndex == 6
-                                ? const Calculator1()
-                                : const Calculator2();
+                                ? const UpdatePassword()
+                                : currentIndex == 7
+                                    ? const Calculator1()
+                                    : const Calculator2();
     // : currentIndex == 5
     //     ? const News()
     //     : const Logout();
