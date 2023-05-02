@@ -1,10 +1,14 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ui';
-
+import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../bottomTabBar/FabTabs.dart';
 import '../drawer/sidemenu.dart';
+import '../news/news.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -14,8 +18,10 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  List<Map<String, String>> news =[];
   late Timer _timer;
   int _currentIndex = 0;
+  int _currentIndex2 = 0;
   final List<String> _imageUrls = [
     'assests/RuhunaHome1.jpg',
     'assests/RuhunaHome2.jpg',
@@ -28,10 +34,14 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    _fetchNews();
     _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      setState(() {
-        _currentIndex = (_currentIndex + 1) % _imageUrls.length;
-      });
+      if(mounted) {
+        setState(() {
+          _currentIndex = (_currentIndex + 1) % _imageUrls.length;
+          _currentIndex2 = (_currentIndex2 + 1) % news.length;
+        });
+      }
     });
   }
 
@@ -39,6 +49,40 @@ class _HomeState extends State<Home> {
   void dispose() {
     _timer.cancel();
     super.dispose();
+  }
+
+  // get all news from api
+  Future<void> _fetchNews() async {
+    String url = dotenv.get("API",fallback:"");
+    final response = await http.get(Uri.parse('$url/news/getLeatestNews'));
+
+    // print(response.body);
+    if (response.statusCode == 200) {
+      List<dynamic> newsList = jsonDecode(response.body)['data']['news'];
+      //print('news?: $newsList');
+      //print('Fetched ${newsList.length} news items');
+      List<Map<String, String>> newNews =[];
+      for (var newsMap in newsList) {
+        Map<String, String> newsItem = {
+          '_id': newsMap['_id'],
+          'title': newsMap['title'],
+          'description': newsMap['description'],
+          'date': newsMap['date'],
+        };
+        newNews.add(newsItem);
+      }
+      setState(() {
+        news = newNews;
+
+      });
+
+    } else {
+      if (kDebugMode) {
+        print('Failed to fetch news: ${response.statusCode}');
+      }
+    }
+
+
   }
 
   @override
@@ -212,80 +256,46 @@ class _HomeState extends State<Home> {
             ),
             const SizedBox(height: 10),
 
-            Padding(
-              //padding: EdgeInsets.all(15), // outer padding for all
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              child: Container(
-                padding: const EdgeInsets.all(10), // inner padding
-                decoration: BoxDecoration(
-                  color: Colors.white30,
-                  border: Border.all(color: Colors.grey, width: 2),
-                  borderRadius: BorderRadius.circular(20),
+            GestureDetector(
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>const News() ),
+                );
+              },
+              child: SizedBox(
+                height: 200,
+
+                child:  Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    // crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(10),
+                        child: Image.asset(
+                          "assests/newruh1.png",
+                          height: 150,
+                          width: 250,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+
+                      Text(
+                        news.isNotEmpty ? news[_currentIndex2]['title'] ?? 'Title not available' : 'No news available',
+                        // news[_currentIndex2]['title']!,
+                        // (news[_currentIndex2]['title'] == null)
+                        //       ? news[_currentIndex2]['title'].toString()
+                        //       : 'Title not available',
+                        style: const TextStyle(fontWeight: FontWeight.bold,fontSize:16),
+                      ),
+                    ],
+                  ),
+
                 ),
-                child: const Text(
-                  'Most young people are not getting latest Covid-19 booster.',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              child: Container(
-                padding: const EdgeInsets.all(10), // inner padding
-                decoration: BoxDecoration(
-                  color: Colors.white30,
-                  border: Border.all(color: Colors.grey, width: 2),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Text(
-                  'Most young people are not getting latest Covid-19 booster.',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              child: Container(
-                padding: const EdgeInsets.all(10), // inner padding
-                decoration: BoxDecoration(
-                  color: Colors.white30,
-                  border: Border.all(color: Colors.grey, width: 2),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Text(
-                  'Most young people are not getting latest Covid-19 booster.',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              child: Container(
-                padding: const EdgeInsets.all(10), // inner padding
-                decoration: BoxDecoration(
-                  color: Colors.white30,
-                  border: Border.all(color: Colors.grey, width: 2),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Text(
-                  'Most young people are not getting latest Covid-19 booster.',
-                  style: TextStyle(fontSize: 18),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 15),
-              child: Container(
-                padding: const EdgeInsets.all(10), // inner padding
-                decoration: BoxDecoration(
-                  color: Colors.white30,
-                  border: Border.all(color: Colors.grey, width: 2),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: const Text(
-                  'Most young people are not getting latest Covid-19 booster.',
-                  style: TextStyle(fontSize: 18),
-                ),
+
               ),
             ),
             const SizedBox(height: 10),
