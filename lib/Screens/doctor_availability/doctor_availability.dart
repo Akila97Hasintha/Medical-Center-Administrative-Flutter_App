@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
-
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -34,7 +34,8 @@ class _HomeState extends State<DoctorAvailable> {
 
   // get Doctor availability
   fetchData() async {
-    final response = await http.get(Uri.parse('http://localhost:3000/api/v1/doctorAvailability/mobile'));
+    String url = dotenv.get("API",fallback:"");
+    final response = await http.get(Uri.parse('$url/doctorAvailability/mobile'));
    // print(response.body);
   if(response.statusCode == 200) {
     var data = jsonDecode(response.body);

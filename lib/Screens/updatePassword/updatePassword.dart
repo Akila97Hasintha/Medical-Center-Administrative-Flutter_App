@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 //import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -46,11 +47,12 @@ class _HomeState extends State<UpdatePassword> {
 //Get student personal information
 
   Future<void> fetchPersonalInfo() async {
+    String url = dotenv.get("API",fallback:"");
     SharedPreferences prefs = await SharedPreferences
         .getInstance();
     String? id = prefs.getString('_id');
     final response = await http
-        .get(Uri.parse('http://localhost:3000/api/v1/students/getStudent/$id'));
+        .get(Uri.parse('$url/students/getStudent/$id'));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);

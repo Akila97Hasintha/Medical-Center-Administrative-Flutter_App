@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import '../drawer/sidemenu.dart';
 import 'dart:convert';
@@ -25,12 +26,12 @@ class _HomeState extends State<MedicalRecords> {
 
   // fetch medical records from api
   Future<void> _fetchMedicalRecord() async {
-
+    String url = dotenv.get("API",fallback:"");
     SharedPreferences prefs = await SharedPreferences
         .getInstance();
     String? id = prefs.getString('_id');
 
-    final response = await http.get(Uri.parse('http://localhost:3000/api/v1/history/642434edc8474ee8332377cd'));
+    final response = await http.get(Uri.parse('$url/history/642434edc8474ee8332377cd'));
 
     //print(response.body);
     if (response.statusCode == 201) {

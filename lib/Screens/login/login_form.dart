@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_fonts/google_fonts.dart';
 //import 'fogot_password/fogot_password.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
@@ -234,7 +235,8 @@ class _LoginFormState extends State<LoginForm> {
   }
   // Authontication for login
   signup(email, password) async{
-    var url = "http://localhost:3000/api/v1/auth/login";
+    String urL = dotenv.get("API",fallback:"");
+    var url = "$urL/auth/login";
     final response = await http.post(
       Uri.parse(url),
       headers: <String, String>{

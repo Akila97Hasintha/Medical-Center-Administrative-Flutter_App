@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart' ;
@@ -26,16 +27,18 @@ class _SideMenuState extends State<SideMenu> {
 
 //Get student personal information
   Future<void> logOut() async {
+    String url = dotenv.get("API",fallback:"");
     final response = await http
-        .get(Uri.parse('http://localhost:3000/api/v1/auth/logout'));
+        .get(Uri.parse('$url/auth/logout'));
      logout = response.body;
   }
   Future<void> fetchPersonalInfo() async {
+    String url = dotenv.get("API",fallback:"");
     SharedPreferences prefs = await SharedPreferences
         .getInstance();
     String? id = prefs.getString('_id');
     final response = await http
-        .get(Uri.parse('http://localhost:3000/api/v1/students/getStudent/$id'));
+        .get(Uri.parse('$url/students/getStudent/$id'));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
