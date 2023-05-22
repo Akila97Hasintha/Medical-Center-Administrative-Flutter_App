@@ -86,7 +86,7 @@ class _HomeState extends State<PersonalInformation> {
                 children:  [
                   const CircleAvatar(
                     radius: 50,
-                    backgroundImage: NetworkImage('assests/profile.jpg'),
+                    backgroundImage: NetworkImage('https://paravi.ruh.ac.lk/rumis/picture/user_pictures/student_std_pics/fosmis_pic/sc10810.jpg'),
                   ),
                   const SizedBox(height: 10),
                   Text(

@@ -38,6 +38,7 @@ class _HomeState extends State<News> {
             'title': newsMap['title'],
             'description': newsMap['description'],
             'date': newsMap['date'],
+            'url' : newsMap['url'],
           };
           newNews.add(newsItem);
         }
@@ -82,11 +83,11 @@ class _HomeState extends State<News> {
                 children: [
                   Container(
                     height: 200,
-                    decoration: const BoxDecoration(
+                    decoration:  BoxDecoration(
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                          'assests/newruh1.png',
+                          news[index]['url']!,
                         ),
                       ),
                     ),

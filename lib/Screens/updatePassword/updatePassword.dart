@@ -131,7 +131,7 @@ class _HomeState extends State<UpdatePassword> {
                   children:  [
                     const CircleAvatar(
                       radius: 50,
-                      backgroundImage: NetworkImage('assests/profile.jpg'),
+                      backgroundImage: AssetImage('assests/profile.jpg'),
                     ),
                     const SizedBox(height: 10),
                     Text(

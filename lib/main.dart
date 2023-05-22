@@ -9,11 +9,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
   runApp(
-
-      DevicePreview(
-        //enabled: !kReleaseMode,
-         builder: (context) => const MyApp(),
-          ), // Wrap your app
+      //
+      // DevicePreview(
+      //   //enabled: !kReleaseMode,
+      //    builder: (context) => const MyApp(),
+      //     ), // Wrap your app
+    const MyApp(),
 
   );
 }

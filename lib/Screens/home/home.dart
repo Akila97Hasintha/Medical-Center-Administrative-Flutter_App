@@ -67,6 +67,7 @@ class _HomeState extends State<Home> {
           '_id': newsMap['_id'],
           'title': newsMap['title'],
           'description': newsMap['description'],
+          'url' : newsMap['url'],
           'date': newsMap['date'],
         };
         newNews.add(newsItem);
@@ -119,7 +120,7 @@ class _HomeState extends State<Home> {
               height: 250,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(_imageUrls[_currentIndex]),
+                  image: AssetImage(_imageUrls[_currentIndex]),
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.circular(10),
@@ -154,8 +155,9 @@ class _HomeState extends State<Home> {
                         'free laboratory services and other required '
                         'health services.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(color: Colors.black, fontSize: 15),
+                        style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
+
                     ],
                   ),
                 ),
@@ -190,51 +192,55 @@ class _HomeState extends State<Home> {
                 ),
                 child: Column(
                   children: const [
-                    Text.rich(
-                      TextSpan(
-                        children: [
-                          WidgetSpan(
-                            child: Icon(Icons.remove_red_eye,
-                                color: Color(0xff011422)),
-                            alignment: PlaceholderAlignment.middle,
-                          ),
-                          TextSpan(
-                            text: '  Free Checkup',
-                            style: TextStyle(
-                                fontSize: 20, fontWeight: FontWeight.bold),
-                          ),
-                        ],
+                    Text(
+                      'Free Checkup',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Take advantage of our free checkup offer, available to all new patients. Our experienced medical professionals will conduct a thorough assessment and provide personalized recommendations for maintaining your health. Book now.',
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Expert Consultancy',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Our experienced physicians and specialists provide expert consultancy for a wide range of medical conditions. Get personalized treatment plans and ongoing support to manage your health effectively',
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Total Care',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'We provide total care for your health needs, including preventive care, diagnostics, treatments, and ongoing management. Our dedicated team of professionals is committed to your well-being.',
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      'Medicines',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'We offer a wide range of high-quality medicines, including prescription and over-the-counter options. Our pharmacists provide expert advice and ensure safe and efficient dispensing of medications. Visit us today.',
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
 
-                    SizedBox(
-                        height: 10), // add some space between the text widgets
-                    Text('Medical Center Services',
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold)),
-                    Text('Medical Center Services',
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold)),
-                    Text('Medical Center Services',
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold)),
-                    Text('Medical Center Services',
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold)),
-                    Text('Medical Center Services',
-                        style: TextStyle(
-                            color: Colors.black87,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold)),
-                    //SizedBox(height: 20),
                   ],
                 ),
               ),
@@ -274,12 +280,14 @@ class _HomeState extends State<Home> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          "assests/newruh1.png",
+                        child: news != null && news.isNotEmpty && _currentIndex2 < news.length && news[_currentIndex2] != null
+                            ? Image.network(
+                          news[_currentIndex2]['url']!,
                           height: 150,
                           width: 250,
                           fit: BoxFit.cover,
-                        ),
+                        )
+                            : Container(),
                       ),
                       const SizedBox(height: 5),
 
