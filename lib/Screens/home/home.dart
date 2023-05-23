@@ -18,7 +18,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  List<Map<String, String>> news =[];
+  List<Map<String, String>> news = [];
   late Timer _timer;
   int _currentIndex = 0;
   int _currentIndex2 = 0;
@@ -36,7 +36,7 @@ class _HomeState extends State<Home> {
     super.initState();
     _fetchNews();
     _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
-      if(mounted) {
+      if (mounted) {
         setState(() {
           _currentIndex = (_currentIndex + 1) % _imageUrls.length;
           _currentIndex2 = (_currentIndex2 + 1) % news.length;
@@ -53,7 +53,7 @@ class _HomeState extends State<Home> {
 
   // get all news from api
   Future<void> _fetchNews() async {
-    String url = dotenv.get("API",fallback:"");
+    String url = dotenv.get("API", fallback: "");
     final response = await http.get(Uri.parse('$url/news/getLeatestNews'));
 
     // print(response.body);
@@ -61,29 +61,25 @@ class _HomeState extends State<Home> {
       List<dynamic> newsList = jsonDecode(response.body)['data']['news'];
       //print('news?: $newsList');
       //print('Fetched ${newsList.length} news items');
-      List<Map<String, String>> newNews =[];
+      List<Map<String, String>> newNews = [];
       for (var newsMap in newsList) {
         Map<String, String> newsItem = {
           '_id': newsMap['_id'],
           'title': newsMap['title'],
           'description': newsMap['description'],
-          'url' : newsMap['url'],
+          'url': newsMap['url'],
           'date': newsMap['date'],
         };
         newNews.add(newsItem);
       }
       setState(() {
         news = newNews;
-
       });
-
     } else {
       if (kDebugMode) {
         print('Failed to fetch news: ${response.statusCode}');
       }
     }
-
-
   }
 
   @override
@@ -157,7 +153,6 @@ class _HomeState extends State<Home> {
                         textAlign: TextAlign.center,
                         style: TextStyle(color: Colors.white, fontSize: 15),
                       ),
-
                     ],
                   ),
                 ),
@@ -191,61 +186,73 @@ class _HomeState extends State<Home> {
                   borderRadius: BorderRadius.circular(30),
                 ),
                 child: Column(
-                  children: const [
-                    Text(
-                      'Free Checkup',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  children: [
+                    const SizedBox(height: 10),
+                    Row(
+                      children: const [
+                        Icon(Icons.check_circle_outline,
+                            color: Colors.black87, size: 19),
+                        SizedBox(width: 5),
+                        Text(
+                          'Expert Consultancy',
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      'Take advantage of our free checkup offer, available to all new patients. Our experienced medical professionals will conduct a thorough assessment and provide personalized recommendations for maintaining your health. Book now.',
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      children: const [
+                        Icon(Icons.check_circle_outline,
+                            color: Colors.black87, size: 19),
+                        SizedBox(width: 5),
+                        Text(
+                          'Free Checkup',
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      'Expert Consultancy',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    Row(
+                      children: const [
+                        Icon(Icons.check_circle_outline,
+                            color: Colors.black87, size: 19),
+                        SizedBox(width: 5),
+                        Text(
+                          'Total Care',
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      'Our experienced physicians and specialists provide expert consultancy for a wide range of medical conditions. Get personalized treatment plans and ongoing support to manage your health effectively',
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
+                    Row(
+                      children: const [
+                        Icon(Icons.check_circle_outline,
+                            color: Colors.black87, size: 19),
+                        SizedBox(width: 5),
+                        Text(
+                          'Medicines',
+                          style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      'Total Care',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'We provide total care for your health needs, including preventive care, diagnostics, treatments, and ongoing management. Our dedicated team of professionals is committed to your well-being.',
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      'Medicines',
-                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      'We offer a wide range of high-quality medicines, including prescription and over-the-counter options. Our pharmacists provide expert advice and ensure safe and efficient dispensing of medications. Visit us today.',
-                      style: TextStyle(
-                        color: Colors.black87,
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
             ),
-
             const SizedBox(height: 10),
             Row(
               children: const [
@@ -263,16 +270,15 @@ class _HomeState extends State<Home> {
             const SizedBox(height: 10),
 
             GestureDetector(
-              onTap: (){
+              onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>const News() ),
+                  MaterialPageRoute(builder: (context) => const News()),
                 );
               },
               child: SizedBox(
                 height: 200,
-
-                child:  Padding(
+                child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -280,30 +286,34 @@ class _HomeState extends State<Home> {
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: news != null && news.isNotEmpty && _currentIndex2 < news.length && news[_currentIndex2] != null
+                        child: news != null &&
+                                news.isNotEmpty &&
+                                _currentIndex2 < news.length &&
+                                news[_currentIndex2] != null
                             ? Image.network(
-                          news[_currentIndex2]['url']!,
-                          height: 150,
-                          width: 250,
-                          fit: BoxFit.cover,
-                        )
+                                news[_currentIndex2]['url']!,
+                                height: 150,
+                                width: 250,
+                                fit: BoxFit.cover,
+                              )
                             : Container(),
                       ),
                       const SizedBox(height: 5),
-
                       Text(
-                        news.isNotEmpty ? news[_currentIndex2]['title'] ?? 'Title not available' : 'No news available',
+                        news.isNotEmpty
+                            ? news[_currentIndex2]['title'] ??
+                                'Title not available'
+                            : 'No news available',
                         // news[_currentIndex2]['title']!,
                         // (news[_currentIndex2]['title'] == null)
                         //       ? news[_currentIndex2]['title'].toString()
                         //       : 'Title not available',
-                        style: const TextStyle(fontWeight: FontWeight.bold,fontSize:16),
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                     ],
                   ),
-
                 ),
-
               ),
             ),
             const SizedBox(height: 10),
@@ -328,7 +338,8 @@ class _HomeState extends State<Home> {
                       height: _buttonSize1,
                       child: Material(
                         child: Ink.image(
-                          image: const AssetImage('assests/bmi_calculator.png'),
+                          image:
+                              const AssetImage('assests/bmi_calculator3.png'),
                           fit: BoxFit.cover,
                           child: InkWell(
                             onTap: () {

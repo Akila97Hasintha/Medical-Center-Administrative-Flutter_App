@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'Screens/bottomTabBar/FabTabs.dart';
 import 'Screens/loading/loading.dart';
 import 'package:flutter/material.dart';
 import 'package:device_preview/device_preview.dart';
@@ -9,12 +10,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
   runApp(
-      //
-      // DevicePreview(
-      //   //enabled: !kReleaseMode,
-      //    builder: (context) => const MyApp(),
-      //     ), // Wrap your app
-    const MyApp(),
+
+      DevicePreview(
+        //enabled: !kReleaseMode,
+         builder: (context) => const MyApp(),
+          ), // Wrap your app
+    //const MyApp(),
 
   );
 }
