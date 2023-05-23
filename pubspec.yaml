@@ -99,6 +99,7 @@ flutter:
   - assests/bmi_range2.jpg
   - assests/bmi_calculator.png
   - assests/bmi_calculator3.png
+  - assests/water_jug.png
   - assests/water.png
   - .env
   - assests/MyWater.png

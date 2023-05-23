@@ -5,10 +5,10 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../bottomTabBar/FabTabs.dart';
 import '../drawer/sidemenu.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import '../home/home.dart';
-
 
 class UpdatePassword extends StatefulWidget {
   const UpdatePassword({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class _HomeState extends State<UpdatePassword> {
   String role = "";
   String dayOb = "";
   String rNum = "";
-  int age =0;
+  int age = 0;
   String fac = "";
   //String mobile = "";
   //String Gender ="";
@@ -38,21 +38,13 @@ class _HomeState extends State<UpdatePassword> {
   String password = "";
   String passwordConfirm = "";
 
-
-
-
-
-
-
 //Get student personal information
 
   Future<void> fetchPersonalInfo() async {
-    String url = dotenv.get("API",fallback:"");
-    SharedPreferences prefs = await SharedPreferences
-        .getInstance();
+    String url = dotenv.get("API", fallback: "");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     String? id = prefs.getString('_id');
-    final response = await http
-        .get(Uri.parse('$url/students/getStudent/$id'));
+    final response = await http.get(Uri.parse('$url/students/getStudent/$id'));
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -68,11 +60,7 @@ class _HomeState extends State<UpdatePassword> {
         //mobile = user['mobile'];
         //Gender = user['gender'];
         //address = user['address'];
-
-
-
       });
-
 
       if (kDebugMode) {
         print(name);
@@ -82,20 +70,16 @@ class _HomeState extends State<UpdatePassword> {
         print('Request failed with status: ${response.statusCode}.');
       }
     }
-
-
   }
 
   @override
   void initState() {
     super.initState();
     fetchPersonalInfo();
-
   }
+
   @override
   Widget build(BuildContext context) {
-
-
     return SafeArea(
       child: Scaffold(
         drawer: const SideMenu(),
@@ -128,7 +112,7 @@ class _HomeState extends State<UpdatePassword> {
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children:  [
+                  children: [
                     const CircleAvatar(
                       radius: 50,
                       backgroundImage: AssetImage('assests/profile.jpg'),
@@ -153,12 +137,13 @@ class _HomeState extends State<UpdatePassword> {
                   ],
                 ),
               ),
-              const SizedBox(height: 100,),
+              const SizedBox(
+                height: 100,
+              ),
               Form(
                 key: _formkey,
                 child: Column(
                   children: <Widget>[
-
                     Container(
                       padding: const EdgeInsets.all(10),
                       child: TextFormField(
@@ -167,27 +152,24 @@ class _HomeState extends State<UpdatePassword> {
                         decoration: InputDecoration(
                           //suffix: Icon(Icons.lock),
                           suffixIcon: IconButton(
-                              onPressed: (){
+                              onPressed: () {
                                 setState(() {
-                                  if(_isObscure){
+                                  if (_isObscure) {
                                     _isObscure = false;
-                                  }else{
+                                  } else {
                                     _isObscure = true;
                                   }
                                 });
                               },
-
-                              icon:Icon(
-                                  _isObscure == true?Icons.remove_red_eye:Icons.password
-                              )
-
-
-                          ),
+                              icon: Icon(_isObscure == true
+                                  ? Icons.remove_red_eye
+                                  : Icons.password)),
                           border: const OutlineInputBorder(),
                           labelText: 'Current Password',
                         ),
-                        validator: Validators.compose([Validators.required('require password..')] ),
-                        onChanged:(value){
+                        validator: Validators.compose(
+                            [Validators.required('require password..')]),
+                        onChanged: (value) {
                           passwordCurrent = value;
                         },
                       ),
@@ -200,27 +182,24 @@ class _HomeState extends State<UpdatePassword> {
                         decoration: InputDecoration(
                           //suffix: Icon(Icons.lock),
                           suffixIcon: IconButton(
-                              onPressed: (){
+                              onPressed: () {
                                 setState(() {
-                                  if(_isObscure){
+                                  if (_isObscure) {
                                     _isObscure = false;
-                                  }else{
+                                  } else {
                                     _isObscure = true;
                                   }
                                 });
                               },
-
-                              icon:Icon(
-                                  _isObscure == true?Icons.remove_red_eye:Icons.password
-                              )
-
-
-                          ),
+                              icon: Icon(_isObscure == true
+                                  ? Icons.remove_red_eye
+                                  : Icons.password)),
                           border: const OutlineInputBorder(),
                           labelText: 'New Password',
                         ),
-                        validator: Validators.compose([Validators.required('require password..')] ),
-                        onChanged:(value){
+                        validator: Validators.compose(
+                            [Validators.required('require password..')]),
+                        onChanged: (value) {
                           password = value;
                         },
                       ),
@@ -229,54 +208,45 @@ class _HomeState extends State<UpdatePassword> {
                       padding: const EdgeInsets.all(10),
                       child: TextFormField(
                         obscureText: _isObscure,
-                       // controller: passwordController,
+                        // controller: passwordController,
                         decoration: InputDecoration(
                           //suffix: Icon(Icons.lock),
                           suffixIcon: IconButton(
-                              onPressed: (){
+                              onPressed: () {
                                 setState(() {
-                                  if(_isObscure){
+                                  if (_isObscure) {
                                     _isObscure = false;
-                                  }else{
+                                  } else {
                                     _isObscure = true;
                                   }
                                 });
                               },
-
-                              icon:Icon(
-                                  _isObscure == true?Icons.remove_red_eye:Icons.password
-                              )
-
-
-                          ),
+                              icon: Icon(_isObscure == true
+                                  ? Icons.remove_red_eye
+                                  : Icons.password)),
                           border: const OutlineInputBorder(),
                           labelText: 'Confirm Password',
                         ),
-                        validator: Validators.compose([Validators.required('require password..')] ),
-                        onChanged:(value){
+                        validator: Validators.compose(
+                            [Validators.required('require password..')]),
+                        onChanged: (value) {
                           passwordConfirm = value;
                         },
                       ),
                     ),
                     Container(
-
-                      padding: const EdgeInsets.fromLTRB(10, 10, 10,10),
-
+                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                       child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(shape:const StadiumBorder() ,
+                        style: ElevatedButton.styleFrom(
+                          shape: const StadiumBorder(),
                           minimumSize: const Size.fromHeight(50),
                         ),
-
                         onPressed: () async {
                           if (_formkey.currentState!.validate()) {
                             if (kDebugMode) {
                               print('Success');
                               print(email);
                             }
-
-
-
-
 
                             // pass to email to the endpoint
                             // showDialog(
@@ -294,23 +264,13 @@ class _HomeState extends State<UpdatePassword> {
                             //     );
                             //   },
                             // );
-                            updatePassword(passwordCurrent, password, passwordConfirm);
-
-
+                            updatePassword(
+                                passwordCurrent, password, passwordConfirm);
                           }
-
                         },
-                        child: const Text(
-                            'Update Password'
-                        ),
-
+                        child: const Text('Update Password'),
                       ),
                     ),
-
-
-
-
-
                   ],
                 ),
               ),
@@ -321,7 +281,7 @@ class _HomeState extends State<UpdatePassword> {
     );
   }
 
-  updatePassword(passwordCurrent, password,passwordConfirm) async{
+  updatePassword(passwordCurrent, password, passwordConfirm) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? id = prefs.getString('_id');
     var url = "http://localhost:3000/api/v1/auth/updatePassword/$id";
@@ -329,10 +289,11 @@ class _HomeState extends State<UpdatePassword> {
       Uri.parse(url),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
-
       },
       body: jsonEncode(<String, String>{
-        'passwordCurrent':passwordCurrent,'password':password,'passwordConfirm':passwordConfirm
+        'passwordCurrent': passwordCurrent,
+        'password': password,
+        'passwordConfirm': passwordConfirm
       }),
     );
 
@@ -341,11 +302,8 @@ class _HomeState extends State<UpdatePassword> {
     }
     var parse = jsonDecode(response.body);
 
-
-    if(response.statusCode == 200){
-
-      if(parse['status'] == "success"){
-
+    if (response.statusCode == 200) {
+      if (parse['status'] == "success") {
         showDialog(
           context: context,
           builder: (BuildContext context) {
@@ -354,11 +312,10 @@ class _HomeState extends State<UpdatePassword> {
               content: const Text("Updated Successfully"),
               actions: <Widget>[
                 TextButton(
-                  onPressed: () =>
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const Home()),
-                ),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FabTabs(selectedIndex: 0)),
+                  ),
                   child: const Text("OK"),
                 ),
               ],
@@ -366,11 +323,8 @@ class _HomeState extends State<UpdatePassword> {
           },
         );
       }
-
-
-
-    }else{
-      if(parse['status'] == "error"){
+    } else {
+      if (parse['status'] == "error") {
         await prefs.setString('update_message', parse['message']);
         String? message = prefs.getString("update_message");
         showDialog(
@@ -378,11 +332,10 @@ class _HomeState extends State<UpdatePassword> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: const Text("Update Password"),
-              content:  Text(message!),
+              content: Text(message!),
               actions: <Widget>[
                 TextButton(
-                  onPressed: () =>
-                      Navigator.pop(context),
+                  onPressed: () => Navigator.pop(context),
                   child: const Text("OK"),
                 ),
               ],
@@ -396,16 +349,6 @@ class _HomeState extends State<UpdatePassword> {
 
       //if (!mounted) return;
 
-
-
-
-
-
     }
-
-
-
   }
-
 }
-
