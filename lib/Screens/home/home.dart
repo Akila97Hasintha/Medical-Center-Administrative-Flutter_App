@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-
+import '../notification/notification.dart';
 import '../bottomTabBar/FabTabs.dart';
 import '../drawer/sidemenu.dart';
 import '../news/news.dart';
@@ -86,6 +86,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+
         drawer: const SideMenu(),
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(120.0),
@@ -104,8 +105,27 @@ class _HomeState extends State<Home> {
                   height: 60.5,
                   width: 300.0,
                 ),
+
               ],
+
             ),
+            actions: [
+              Align(
+                alignment: Alignment.center,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 16.0),
+                  child: IconButton(
+                    icon: const Icon(Icons.notifications),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const NotificationView()),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
         body: ListView(

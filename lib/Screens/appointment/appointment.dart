@@ -1,13 +1,21 @@
+import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:intl/intl.dart';
-
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../Models/studentModel.dart';
 import '../../Services/api_data.dart';
 import '../drawer/sidemenu.dart';
+import '../appointment/appoinmentList.dart';
 
 class Appointment extends StatefulWidget {
-  const Appointment({Key? key}) : super(key: key);
+  const Appointment({super.key});
+
+  // const Appointment({Key? key}) : super(key: key);
 
   @override
   State<Appointment> createState() => _HomeState();
@@ -26,13 +34,71 @@ class _HomeState extends State<Appointment> {
   }
 
   // call the api services
-  Future<void> _fetchPersonalInfo() async {
+  void _fetchPersonalInfo() async {
     final apiData = ApiData();
     final student = await apiData.fetchPersonalInfo();
     setState(() {
       _student = student;
       _isLoading = false;
     });
+  }
+
+  addAppointment(userId,title,name,faculty,level,mobile,regNo,date,description,time,status) async{
+    String urL = dotenv.get("API",fallback:"");
+    var url = "$urL/channeling/bookAppointment";
+    //final formattedDate = DateFormat('yyyy-mm-dd').format(date).toString();
+    //final formattedTime = DateFormat('hh:mm:ss a').format(time).toString();
+    //final formattedTime = time.format(context).toString();
+    //print(formattedDate);
+    final response = await http.post(
+      Uri.parse(url),
+
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+
+      },
+      body: jsonEncode(<String, String>{
+        'userId':userId,
+        'title':title,
+        'name':name,
+        "faculty":faculty,
+        'level':level,
+        'mobile':mobile,
+        'regNo':regNo,
+        'date':date.toString(),
+        'description':description,
+        'time':time.toString(),
+        'status':status
+      }),
+    );
+
+    if (kDebugMode) {
+      print(response.body);
+    }
+    var parse = jsonDecode(response.body);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    if(response.statusCode == 200){
+
+      if(parse['status'] == "success"){
+        await prefs.setString('message', parse['message']);
+
+      }
+
+    }else{
+      if(parse['status'] == "fail"){
+        await prefs.setString('message', parse['message']);
+      }
+      String? message = prefs.getString("message");
+
+      if (kDebugMode) {
+        print("Appointment faild");
+      }
+      if (kDebugMode) {
+        print(message);
+      }
+
+    }
   }
 
 
@@ -43,14 +109,15 @@ class _HomeState extends State<Appointment> {
   String? _selectedDoctor;
   DateTime? _selectedDate;
   TimeOfDay? _selectedTime;
+  final String _status = "pending";
 
-  final List<String> _levels = ['level1', 'level2', 'level3', 'level4'];
+  final List<String> _levels = ['level_1', 'level_2', 'level_3', 'level_4'];
   final List<String> _doctors = ['doctor1', 'doctor2', 'doctor3'];
 
   String _formatTimeOfDay(TimeOfDay time) {
     final now = DateTime.now();
     final dateTime =
-    DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    DateTime(now.day, now.month, now.year, time.hour, time.minute);
     return DateFormat.jm().format(dateTime);
   }
 
@@ -60,12 +127,17 @@ class _HomeState extends State<Appointment> {
     if (_isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
-////// get data from student model
 
-    //final title = _student.title;
+    if (_student == null) {
+      return const Center(child: Text('Failed to fetch student data'));
+    }
+////// get data from student model
+    final id = _student.id;
+    final title = _student.title;
     final name = _student.name;
     final rNum = _student.rNum;
     final fac = _student.fac;
+
 
     return Scaffold(
       drawer: const SideMenu(),
@@ -85,11 +157,27 @@ class _HomeState extends State<Appointment> {
               key: _formKey,
               child: Column(
                 children: <Widget>[
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const AppoinmentList()),
+                      );
 
+                    },
+                    child: const Text(
+                      'View Appoinment List',
+                      style: TextStyle(
+                        fontSize: 20,
+                        //fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Title'),
                     //initialValue: _student?.name,
-                    initialValue: _student.name,
+                    initialValue: _student.title,
                     enabled: false, // Disable editing
                   ),
                   const SizedBox(height: 20),
@@ -137,29 +225,7 @@ class _HomeState extends State<Appointment> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  // DropdownButtonFormField<String>(
-                  //   decoration: const InputDecoration(labelText: 'Faculty'),
-                  //   value: _selectedFaculty,
-                  //   onChanged: (newValue) {
-                  //     setState(() {
-                  //       _selectedFaculty = newValue;
-                  //     });
-                  //   },
-                  //   items: _faculties
-                  //       .map<DropdownMenuItem<String>>((String faculty) {
-                  //     return DropdownMenuItem<String>(
-                  //       value: faculty,
-                  //       child: Text(faculty),
-                  //     );
-                  //   }).toList(),
-                  //   validator: (value) {
-                  //     if (value == null) {
-                  //       return 'Please select a faculty';
-                  //     }
-                  //     return null;
-                  //   },
-                  // ),
-                  // const SizedBox(height: 20),
+
                   TextFormField(
                     decoration: const InputDecoration(labelText: 'Faculty'),
                     //initialValue: _student?.name,
@@ -271,11 +337,14 @@ class _HomeState extends State<Appointment> {
                         ).then((time) {
                           if (time != null) {
                             final selectedDateTime = DateTime(
-                              DateTime.now().year,
-                              DateTime.now().month,
-                              DateTime.now().day,
-                              time.hour,
-                              time.minute,
+                                DateTime.now().year,
+                                DateTime.now().month,
+                                DateTime.now().day,
+                                time.hour,
+                                time.minute,
+                                0
+
+
                             );
 
                             if (selectedDateTime.hour >= 8 &&
@@ -318,31 +387,39 @@ class _HomeState extends State<Appointment> {
 
                     const SizedBox(height: 20),
                     ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate() &&
                             _selectedDate != null &&
                             _selectedTime != null) {
                           // Save the form data
                           _formKey.currentState!.save();
 
-                          print(_student.name);
-                          print(_student.name);
-                          print(_student.rNum);
-                          print(_mobile);
-                          print(_student.fac);
-                          print(_selectedLevel);
-                          print(_selectedDoctor);
-                          print(_description);
-                          print(_selectedDate);
-                          print(_selectedTime);
-                          print(
-                              DateFormat('MM/dd/yyyy').format(_selectedDate!));
-                          print(_formatTimeOfDay(_selectedTime!));
+
+                          addAppointment(_student.id,_student.title,_student.name,_student.fac,_selectedLevel,_mobile,_student.rNum,_selectedDate,_description,_selectedTime,_status);
+
+                          // print(_student.name);
+                          // print(_student.name);
+                          // print(_student.rNum);
+                          // print(_mobile);
+                          // print(_student.fac);
+                          // print(_selectedLevel);
+                          // print(_selectedDoctor);
+                          // print(_description);
+                          //print(_selectedDate);
+                          // print(_selectedTime);
+                          // print(
+                          //     DateFormat('MM/dd/yyyy').format(_selectedDate!));
+                          // print(_formatTimeOfDay(_selectedTime!));
 
                           // Reset the form
                           _formKey.currentState!.reset();
 
+                          SharedPreferences prefs = await SharedPreferences.getInstance();
+                          String? message = prefs.getString('message');
+                          print(message);
+
                           // Show a success popup
+                          if (!mounted) return;
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                                 content: Text('Appointment submitted successfully!')),
@@ -377,4 +454,7 @@ class _HomeState extends State<Appointment> {
       ),
     );
   }
+
+// get data from  api
+
 }

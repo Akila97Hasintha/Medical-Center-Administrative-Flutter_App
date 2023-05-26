@@ -1,4 +1,7 @@
 class Student{
+
+  late String title;
+  late String id;
   late String name ;
   late String email;
   late String role ;
@@ -12,7 +15,9 @@ class Student{
   late String civilStatus;
 
   Student(
-      {required this.name,
+      { required this.title,
+        required this.id,
+        required this.name,
         required this.email,
         required this.role,
         required this.dayOb,
@@ -27,7 +32,8 @@ class Student{
 
   factory Student.fromJson(Map<String, dynamic> json) {
     return Student(
-
+      title: json['title'],
+      id : json['_id'],
       name: json['name'],
       email: json['email'],
       role: json['role'],
