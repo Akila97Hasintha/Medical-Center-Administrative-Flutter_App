@@ -238,8 +238,13 @@ class _HomeState extends State<UpdatePassword> {
                       padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          shape: const StadiumBorder(),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(
+                                15), // Set the border radius here
+                          ),
                           minimumSize: const Size.fromHeight(50),
+                          backgroundColor:
+                              const Color(0xff011422), // Set the button color
                         ),
                         onPressed: () async {
                           if (_formkey.currentState!.validate()) {
@@ -247,7 +252,6 @@ class _HomeState extends State<UpdatePassword> {
                               print('Success');
                               print(email);
                             }
-
                             // pass to email to the endpoint
                             // showDialog(
                             //   context: context,
@@ -314,7 +318,8 @@ class _HomeState extends State<UpdatePassword> {
                 TextButton(
                   onPressed: () => Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => FabTabs(selectedIndex: 0)),
+                    MaterialPageRoute(
+                        builder: (context) => FabTabs(selectedIndex: 0)),
                   ),
                   child: const Text("OK"),
                 ),

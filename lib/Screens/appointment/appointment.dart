@@ -163,13 +163,17 @@ class _HomeState extends State<Appointment> {
                         context,
                         MaterialPageRoute(builder: (context) => const AppoinmentList()),
                       );
-
                     },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10), // Set the border radius here
+                      ),
+                      backgroundColor: const Color(0xff011422), // Set the button color
+                    ),
                     child: const Text(
-                      'View Appoinment List',
+                      'View Appointment List',
                       style: TextStyle(
                         fontSize: 20,
-                        //fontWeight: FontWeight.bold,
                         color: Colors.white,
                       ),
                     ),
@@ -429,10 +433,10 @@ class _HomeState extends State<Appointment> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xff011422),
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(15),
                         ),
                         padding: const EdgeInsets.symmetric(
-                          horizontal: 100,
+                          horizontal: 80,
                           vertical: 12,
                         ),
                       ),

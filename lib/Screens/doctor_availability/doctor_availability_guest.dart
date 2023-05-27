@@ -5,15 +5,16 @@ import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
 import '../drawer/sidemenu.dart';
+import '../login/login.dart';
 
-class DoctorAvailable extends StatefulWidget {
-  const DoctorAvailable({Key? key}) : super(key: key);
+class DoctorAvailable_Guest extends StatefulWidget {
+  const DoctorAvailable_Guest({Key? key}) : super(key: key);
 
   @override
-  State<DoctorAvailable> createState() => _HomeState();
+  State<DoctorAvailable_Guest> createState() => _HomeState();
 }
 
-class _HomeState extends State<DoctorAvailable> {
+class _HomeState extends State<DoctorAvailable_Guest> {
   late String doctor1name = "";
   late String doctor1status = "";
   late String doctor2name = "";
@@ -75,13 +76,20 @@ class _HomeState extends State<DoctorAvailable> {
       return const Center(child: CircularProgressIndicator());
     }
     return Scaffold(
-      drawer: const SideMenu(),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
         child: AppBar(
           title: const Text("Doctor Availability"),
           backgroundColor: const Color(0xff011422),
           toolbarHeight: 100,
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (_) => LoginPage(),
+              ));
+            },
+          ),
         ),
       ),
       body: Center(
@@ -93,8 +101,7 @@ class _HomeState extends State<DoctorAvailable> {
             Container(
               margin: const EdgeInsets.all(20),
               child: const Text(
-                "We are open Monday to friday 8.00am to 4 pm."
-                "poya days are closed",
+                "We are open Monday to Friday 8.00am to 4 pm. Poya days are closed",
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 20,
@@ -120,7 +127,6 @@ class _HomeState extends State<DoctorAvailable> {
                     Text(
                       doctor1name,
                       style: const TextStyle(
-                        //color: Colors.black,
                         fontWeight: FontWeight.normal,
                         fontSize: 20,
                       ),
@@ -128,7 +134,9 @@ class _HomeState extends State<DoctorAvailable> {
                     const SizedBox(width: 10),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: doctor1status == 'Available'
                             ? Colors.green
@@ -156,7 +164,6 @@ class _HomeState extends State<DoctorAvailable> {
                     Text(
                       doctor2name,
                       style: const TextStyle(
-                        //color: Colors.black,
                         fontWeight: FontWeight.normal,
                         fontSize: 20,
                       ),
@@ -164,7 +171,9 @@ class _HomeState extends State<DoctorAvailable> {
                     const SizedBox(width: 10),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: doctor2status == 'Available'
                             ? Colors.green
@@ -192,7 +201,6 @@ class _HomeState extends State<DoctorAvailable> {
                     Text(
                       doctor3name,
                       style: const TextStyle(
-                        //color: Colors.black,
                         fontWeight: FontWeight.normal,
                         fontSize: 20,
                       ),
@@ -200,7 +208,9 @@ class _HomeState extends State<DoctorAvailable> {
                     const SizedBox(width: 10),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: doctor3status == 'Available'
                             ? Colors.green
@@ -239,7 +249,6 @@ class _HomeState extends State<DoctorAvailable> {
                     Text(
                       doctor4name,
                       style: const TextStyle(
-                        //color: Colors.black,
                         fontWeight: FontWeight.normal,
                         fontSize: 20,
                       ),
@@ -247,7 +256,9 @@ class _HomeState extends State<DoctorAvailable> {
                     const SizedBox(width: 10),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: doctor4status == 'Available'
                             ? Colors.green
@@ -286,7 +297,6 @@ class _HomeState extends State<DoctorAvailable> {
                     Text(
                       doctor5name,
                       style: const TextStyle(
-                        //color: Colors.black,
                         fontWeight: FontWeight.normal,
                         fontSize: 20,
                       ),
@@ -294,7 +304,9 @@ class _HomeState extends State<DoctorAvailable> {
                     const SizedBox(width: 10),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 8, vertical: 4),
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
                       decoration: BoxDecoration(
                         color: doctor5status == 'Available'
                             ? Colors.green
@@ -317,7 +329,7 @@ class _HomeState extends State<DoctorAvailable> {
                   height: 40,
                 ),
                 Text(
-                  'Last Update : $date',
+                  'Last Update: $date',
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 18,
@@ -331,5 +343,3 @@ class _HomeState extends State<DoctorAvailable> {
     );
   }
 }
-
-// get Doctor Availability of doctors
