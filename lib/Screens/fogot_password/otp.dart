@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import 'resetPassword.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+
 
 
 class Otp extends StatefulWidget {
@@ -67,6 +67,12 @@ class OtpState extends State<Otp> {
           _secondsRemaining--;
         }
       });
+    });
+  }
+  void restartTimer() {
+    setState(() {
+      _secondsRemaining = 120; // Set the initial value for the countdown
+      startTimer(); // Start the timer again
     });
   }
 
@@ -328,6 +334,15 @@ class OtpState extends State<Otp> {
                               SharedPreferences prefs = await SharedPreferences.getInstance();
                               String? email = prefs.getString('email');
                               sendEmail(email);
+                              setState(() {
+                                showResendButton = false;
+                              });
+                              restartTimer(); // Restart the timer countdown
+                              textField1Controller.clear(); // Clear the code input fields
+                              textField2Controller.clear();
+                              textField3Controller.clear();
+                              textField4Controller.clear();
+                              _formkey.currentState!.reset();
 
                             } : null,
                             child: const Text(
