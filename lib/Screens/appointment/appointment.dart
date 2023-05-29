@@ -112,7 +112,7 @@ class _HomeState extends State<Appointment> {
   final String _status = "pending";
 
   final List<String> _levels = ['level_1', 'level_2', 'level_3', 'level_4'];
-  final List<String> _doctors = ['doctor1', 'doctor2', 'doctor3'];
+  final List<String> _doctors = ['Dr.(Mrs) K.Rathnayaka', 'Dr.L.G.S.Yapa(CMO)', 'Dr.A.Weerasinhe(CMO)','Dr.S.Athapaththu(Dental)'];
 
   String _formatTimeOfDay(TimeOfDay time) {
     final now = DateTime.now();

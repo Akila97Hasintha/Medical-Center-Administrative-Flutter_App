@@ -119,9 +119,9 @@ class _HomeState extends State<Home> {
 
             ),
             actions: [
-              NotificationView(
-                newNotificationCallback: updateNewNotification,
-              ),
+              // NotificationView(
+              //   newNotificationCallback: updateNewNotification,
+              // ),
               Align(
                 alignment: Alignment.center,
                 child: Padding(
@@ -137,19 +137,19 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
-              if (isNewNotification)
-                Positioned(
-                  top: 6,
-                  right: 6,
-                  child: Container(
-                    width: 10,
-                    height: 10,
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                ),
+              // if (isNewNotification)
+              //   Positioned(
+              //     top: 6,
+              //     right: 6,
+              //     child: Container(
+              //       width: 10,
+              //       height: 10,
+              //       decoration: const BoxDecoration(
+              //         color: Colors.red,
+              //         shape: BoxShape.circle,
+              //       ),
+              //     ),
+              //   ),
             ],
           ),
         ),

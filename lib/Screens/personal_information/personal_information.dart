@@ -34,6 +34,10 @@ class _HomeState extends State<PersonalInformation> {
       _isLoading = false;
     });
   }
+  String extractLastFiveNumbers(String input) {
+    return input.substring(input.length - 5);
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
@@ -51,6 +55,8 @@ class _HomeState extends State<PersonalInformation> {
     final gender = _student.Gender;
     final address = _student.address;
     final civilStatus = _student.civilStatus;
+    String lastFiveNumbers = extractLastFiveNumbers(_student.rNum);
+
 
     return Scaffold(
       drawer: const SideMenu(),
@@ -84,9 +90,9 @@ class _HomeState extends State<PersonalInformation> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:  [
-                  const CircleAvatar(
+                   const CircleAvatar(
                     radius: 50,
-                    backgroundImage: NetworkImage('https://paravi.ruh.ac.lk/rumis/picture/user_pictures/student_std_pics/fosmis_pic/sc10810.jpg'),
+                    backgroundImage: AssetImage('assests/profile.jpg'),
                   ),
                   const SizedBox(height: 10),
                   Text(

@@ -124,9 +124,10 @@ class _HomeState extends State<DoctorAvailable_Guest> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      doctor1name,
-                      style: const TextStyle(
+                    const Text(
+                      "Dr.(Mrs) K.Rathanayaka",
+                      style: TextStyle(
+                        //color: Colors.black,
                         fontWeight: FontWeight.normal,
                         fontSize: 20,
                       ),
@@ -134,9 +135,7 @@ class _HomeState extends State<DoctorAvailable_Guest> {
                     const SizedBox(width: 10),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
+                          horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: doctor1status == 'Available'
                             ? Colors.green
@@ -161,9 +160,10 @@ class _HomeState extends State<DoctorAvailable_Guest> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      doctor2name,
-                      style: const TextStyle(
+                    const Text(
+                      "Dr.L.G.S.Yapa (CMO)",
+                      style: TextStyle(
+                        //color: Colors.black,
                         fontWeight: FontWeight.normal,
                         fontSize: 20,
                       ),
@@ -171,9 +171,7 @@ class _HomeState extends State<DoctorAvailable_Guest> {
                     const SizedBox(width: 10),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
+                          horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: doctor2status == 'Available'
                             ? Colors.green
@@ -198,9 +196,10 @@ class _HomeState extends State<DoctorAvailable_Guest> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      doctor3name,
-                      style: const TextStyle(
+                    const Text(
+                      "Dr.A.Weerasinhe(CMO)",
+                      style: TextStyle(
+                        //color: Colors.black,
                         fontWeight: FontWeight.normal,
                         fontSize: 20,
                       ),
@@ -208,9 +207,7 @@ class _HomeState extends State<DoctorAvailable_Guest> {
                     const SizedBox(width: 10),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
+                          horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: doctor3status == 'Available'
                             ? Colors.green
@@ -233,7 +230,7 @@ class _HomeState extends State<DoctorAvailable_Guest> {
                   height: 40,
                 ),
                 const Text(
-                  "Physiotherapists",
+                  "PHI",
                   style: TextStyle(
                     color: Colors.blue,
                     fontWeight: FontWeight.bold,
@@ -246,9 +243,9 @@ class _HomeState extends State<DoctorAvailable_Guest> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      doctor4name,
-                      style: const TextStyle(
+                    const Text(
+                      "MR.L.S.H.B.P.Pushpakumara ",
+                      style: TextStyle(
                         fontWeight: FontWeight.normal,
                         fontSize: 20,
                       ),
@@ -277,9 +274,8 @@ class _HomeState extends State<DoctorAvailable_Guest> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 40,
-                ),
+
+
                 const Text(
                   "Dental Doctors",
                   style: TextStyle(
@@ -294,9 +290,10 @@ class _HomeState extends State<DoctorAvailable_Guest> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      doctor5name,
-                      style: const TextStyle(
+                    const Text(
+                      "Dr. S.Athapaththu",
+                      style: TextStyle(
+                        //color: Colors.black,
                         fontWeight: FontWeight.normal,
                         fontSize: 20,
                       ),
@@ -304,9 +301,7 @@ class _HomeState extends State<DoctorAvailable_Guest> {
                     const SizedBox(width: 10),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 4,
-                      ),
+                          horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
                         color: doctor5status == 'Available'
                             ? Colors.green
@@ -329,7 +324,7 @@ class _HomeState extends State<DoctorAvailable_Guest> {
                   height: 40,
                 ),
                 Text(
-                  'Last Update: $date',
+                  'Last Update : $date',
                   style: const TextStyle(
                     color: Colors.black,
                     fontSize: 18,

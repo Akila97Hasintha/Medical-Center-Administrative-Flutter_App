@@ -20,6 +20,7 @@ class _SideMenuState extends State<SideMenu> {
   String name = "";
   String email = "";
   String logout = "";
+  String rNum = "";
 
 
 
@@ -47,8 +48,10 @@ class _SideMenuState extends State<SideMenu> {
         setState(() {
           name = user['name'] ?? '';
           email = user['email'] ?? '';
+          rNum = user['regNo'] ?? '';
 
         });
+        print(rNum);
       } else {
         if (kDebugMode) {
           print('User object is null.');
@@ -69,9 +72,17 @@ class _SideMenuState extends State<SideMenu> {
     fetchPersonalInfo();
 
   }
+  String extractLastFiveNumbers(String input) {
+    return input.substring(input.length - 5);
+  }
 
   @override
   Widget build(BuildContext context) {
+    String lastFiveNumbers;
+    if(rNum != null){
+      lastFiveNumbers = extractLastFiveNumbers(rNum);
+    }
+
 
     return Drawer(
       backgroundColor: Colors.white,
@@ -93,7 +104,7 @@ class _SideMenuState extends State<SideMenu> {
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: NetworkImage('https://paravi.ruh.ac.lk/rumis/picture/user_pictures/student_std_pics/fosmis_pic/sc10810.jpg'),
+                      image: AssetImage('assests/profile.jpg'),
                     ),
                   ),
                 ),

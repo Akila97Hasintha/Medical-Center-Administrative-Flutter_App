@@ -117,9 +117,9 @@ class _HomeState extends State<DoctorAvailable> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      doctor1name,
-                      style: const TextStyle(
+                    const Text(
+                      "Dr.(Mrs) K.Rathanayaka",
+                      style: TextStyle(
                         //color: Colors.black,
                         fontWeight: FontWeight.normal,
                         fontSize: 20,
@@ -153,9 +153,9 @@ class _HomeState extends State<DoctorAvailable> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      doctor2name,
-                      style: const TextStyle(
+                    const Text(
+                      "Dr.L.G.S.Yapa (CMO)",
+                      style: TextStyle(
                         //color: Colors.black,
                         fontWeight: FontWeight.normal,
                         fontSize: 20,
@@ -189,9 +189,9 @@ class _HomeState extends State<DoctorAvailable> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      doctor3name,
-                      style: const TextStyle(
+                    const Text(
+                      "Dr.A.Weerasinhe(CMO)",
+                      style: TextStyle(
                         //color: Colors.black,
                         fontWeight: FontWeight.normal,
                         fontSize: 20,
@@ -222,6 +222,51 @@ class _HomeState extends State<DoctorAvailable> {
                 const SizedBox(
                   height: 40,
                 ),
+                const Text(
+                  "PHI",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 25,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "MR.L.S.H.B.P.Pushpakumara ",
+                      style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 20,
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: doctor4status == 'Available'
+                            ? Colors.green
+                            : Colors.red,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        doctor4status == 'Available'
+                            ? 'Available'
+                            : 'Not Available',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
 
 
                 const Text(
@@ -238,9 +283,9 @@ class _HomeState extends State<DoctorAvailable> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      doctor5name,
-                      style: const TextStyle(
+                    const Text(
+                      "Dr. S.Athapaththu",
+                      style: TextStyle(
                         //color: Colors.black,
                         fontWeight: FontWeight.normal,
                         fontSize: 20,
