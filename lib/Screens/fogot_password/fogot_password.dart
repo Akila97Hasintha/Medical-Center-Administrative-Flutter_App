@@ -54,10 +54,17 @@ class F_passwordState extends State<F_password> {
     if(response.statusCode == 200){
 
       if(parse['status'] == "success"){
+
         await prefs.setString('message', parse['message']);
         await prefs.setString('_id', parse['OneOfStudent']['_id']);
         await prefs.setString('mobile', parse['OneOfStudent']['mobile']);
         await prefs.setString('email', email);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const Otp()),
+        );
+
 
 
       }
@@ -65,13 +72,31 @@ class F_passwordState extends State<F_password> {
     }else{
       if(parse['status'] == "fail"){
         await prefs.setString('message', parse['message']);
+        String? message = prefs.getString("message");
+        showDialog(
+            context: context,
+            builder: (BuildContext context)
+            {
+              return AlertDialog(
+                title: const Text("No email"),
+                content: Text(message!),
+                actions: <Widget>[
+                  TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text("OK"),
+                  ),
+                ],
+              );
+            }
+        );
       }
-      String? message = prefs.getString("message");
+
 
       if (kDebugMode) {
         print("otp field");
       }
       if (kDebugMode) {
+        String? message = prefs.getString("message");
         print(message);
       }
 
@@ -172,19 +197,19 @@ class F_passwordState extends State<F_password> {
                           ),
 
                           onPressed: () async {
+
                             if (_formkey.currentState!.validate()) {
+
                               if (kDebugMode) {
                                 //print('Success');
 
                                 print(email);
-                                //call send email
-                                sendEmail(email);
+
 
                               }
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const Otp()),
-                              );
+                              //call send email
+                              sendEmail(email);
+
 
 
                             }

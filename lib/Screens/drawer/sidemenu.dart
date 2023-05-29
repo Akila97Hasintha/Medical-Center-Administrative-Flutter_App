@@ -72,16 +72,16 @@ class _SideMenuState extends State<SideMenu> {
     fetchPersonalInfo();
 
   }
-  String extractLastFiveNumbers(String input) {
-    return input.substring(input.length - 5);
-  }
+  // String extractLastFiveNumbers(String input) {
+  //   return input.substring(input.length - 5);
+  // }
 
   @override
   Widget build(BuildContext context) {
     String lastFiveNumbers;
-    if(rNum != null){
-      lastFiveNumbers = extractLastFiveNumbers(rNum);
-    }
+    // if(rNum != null){
+    //   lastFiveNumbers = extractLastFiveNumbers(rNum);
+    // }
 
 
     return Drawer(
