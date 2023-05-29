@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -7,9 +7,10 @@ import 'package:http/http.dart' as http;
 import '../drawer/sidemenu.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-
+typedef NewNotificationCallback = void Function(bool isNewNotification);
 class NotificationView extends StatefulWidget {
-  const NotificationView({Key? key}) : super(key: key);
+  final NewNotificationCallback? newNotificationCallback;
+  const NotificationView({Key? key, this.newNotificationCallback }) : super(key: key);
 
   @override
   State<NotificationView> createState() => _HomeState();
@@ -18,23 +19,39 @@ class NotificationView extends StatefulWidget {
 class _HomeState extends State<NotificationView> {
   List<dynamic> news =[];
   bool _isLoading = true;
+  Timer? _timer;
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
   FlutterLocalNotificationsPlugin();
+  bool isNewNotifican = false;
 
   @override
   void initState() {
     super.initState();
     _fetchAppointment();
+    startTimer();
     // _initializeNotifications();
   }
-  //
-  // Future<void> _initializeNotifications() async {
-  //   const AndroidInitializationSettings initializationSettingsAndroid =
-  //   AndroidInitializationSettings('app_icon');
-  //   const InitializationSettings initializationSettings =
-  //   InitializationSettings(android: initializationSettingsAndroid);
-  //   await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  // }
+  @override
+  void dispose() {
+    // Cancel the timer when the state is disposed
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  void startTimer() {
+    // Define the duration for the timer (5 seconds)
+    const duration = Duration(seconds: 5);
+
+    // Create a periodic timer that runs every 5 seconds
+    _timer = Timer.periodic(duration, (timer) {
+      // Refresh the page by calling setState
+      setState(() {});
+      if (widget.newNotificationCallback != null) {
+        widget.newNotificationCallback!(isNewNotifican);
+      }
+    });
+  }
+
 // get all news from api
   Future<void> _fetchAppointment() async {
     String url = dotenv.get("API", fallback: "");
@@ -48,12 +65,9 @@ class _HomeState extends State<NotificationView> {
         news = List<String>.from(newsList);
         _isLoading = false;
       });
-      // Display a notification for each new notification
-      // for (var notification in newsList) {
-      //   String message = notification['message'];
-      //
-      //   await _showNotification(message);
-      // }
+     if(news.length<newsList.length){
+       isNewNotifican = true;
+     }
 
      // print(news);
     } else {
@@ -62,25 +76,7 @@ class _HomeState extends State<NotificationView> {
       }
     }
   }
-  // Future<void> _showNotification(String message) async {
-  //   const AndroidNotificationDetails androidPlatformChannelSpecifics =
-  //   AndroidNotificationDetails(
-  //     '_id',
-  //     'name',
-  //     //'description',
-  //     importance: Importance.max,
-  //     priority: Priority.high,
-  //   );
-  //   const NotificationDetails platformChannelSpecifics =
-  //   NotificationDetails(android: androidPlatformChannelSpecifics);
-  //
-  //   await flutterLocalNotificationsPlugin.show(
-  //     0, // notification ID
-  //     'New Notification', // notification title
-  //     message, // notification message
-  //     platformChannelSpecifics,
-  //   );
-  // }
+
 
   @override
   Widget build(BuildContext context) {

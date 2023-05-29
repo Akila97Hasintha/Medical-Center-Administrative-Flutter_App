@@ -31,6 +31,14 @@ class _HomeState extends State<Home> {
   double _buttonSize1 = 120.0;
   double _buttonSize2 = 120.0;
 
+  bool isNewNotification = false;
+
+  void updateNewNotification(bool isNew) {
+    setState(() {
+      isNewNotification = isNew;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -50,6 +58,7 @@ class _HomeState extends State<Home> {
     _timer.cancel();
     super.dispose();
   }
+
 
   // get all news from api
   Future<void> _fetchNews() async {
@@ -110,6 +119,9 @@ class _HomeState extends State<Home> {
 
             ),
             actions: [
+              NotificationView(
+                newNotificationCallback: updateNewNotification,
+              ),
               Align(
                 alignment: Alignment.center,
                 child: Padding(
@@ -125,6 +137,19 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               ),
+              if (isNewNotification)
+                Positioned(
+                  top: 6,
+                  right: 6,
+                  child: Container(
+                    width: 10,
+                    height: 10,
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
             ],
           ),
         ),

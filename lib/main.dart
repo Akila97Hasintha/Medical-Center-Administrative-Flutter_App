@@ -11,11 +11,11 @@ Future<void> main() async {
   await dotenv.load(fileName: ".env");
   runApp(
 
-      DevicePreview(
-        //enabled: !kReleaseMode,
-         builder: (context) => const MyApp(),
-          ), // Wrap your app
-    //const MyApp(),
+      // DevicePreview(
+      //   //enabled: !kReleaseMode,
+      //    builder: (context) => const MyApp(),
+      //     ), // Wrap your app
+    const MyApp(),
 
   );
 }
