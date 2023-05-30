@@ -31,7 +31,7 @@ class _HomeState extends State<MedicalRecords> {
         .getInstance();
     String? id = prefs.getString('_id');
 
-    final response = await http.get(Uri.parse('$url/history/642434edc8474ee8332377cd'));
+    final response = await http.get(Uri.parse('$url/history/$id'));
 
     //print(response.body);
     if (response.statusCode == 201) {

@@ -274,7 +274,9 @@ class _HomeState extends State<DoctorAvailable_Guest> {
                     ),
                   ],
                 ),
-
+                const SizedBox(
+                  height: 20,
+                ),
 
                 const Text(
                   "Dental Doctors",
